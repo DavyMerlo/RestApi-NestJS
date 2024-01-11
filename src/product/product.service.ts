@@ -70,8 +70,10 @@ export class ProductService {
         return new ProductComponent(200, 'success', mappedProducts, metaData);
     }
 
-    async addProduct(dto: ProductDto){
-        const newProduct = this.productRepository.addProductDB(dto);
-        return newProduct;
+    async addProduct(dto: ProductDto): Promise<ProductDetailComponent>{
+        const createdProduct = await this.productRepository.addProductDB(dto);
+        const productDetail = await this.productRepository.productByIdDB(createdProduct.id);
+        const mappedProductDetail = mapper.mapProductDetail(productDetail);
+        return new ProductDetailComponent(200, "succesfull", mappedProductDetail);
     }
 }
