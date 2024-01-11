@@ -2,8 +2,8 @@ import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { NotFoundException, ValidationPipe } from "@nestjs/common";
 import * as dotenv from 'dotenv';
-import { InvalidCredentialsFilter } from "./utils/invalid-credentials.filter";
-import { NotFoundExceptionFilter } from "./utils/not-found.filter";
+import { InvalidCredentialsFilter } from "./common/exceptions/invalid-credentials.filter";
+import { NotFoundExceptionFilter } from "./common/exceptions/not-found.filter";
 
 dotenv.config();
 if(!process.env.PORT){

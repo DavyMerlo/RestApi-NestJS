@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Logger, NotFoundException } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
-import { BaseComponent } from "../models/components/base.component";
+import { BaseComponent } from "../../models/components/base.component";
 
 
 @Catch(NotFoundException)

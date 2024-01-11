@@ -1,6 +1,6 @@
 import { Catch, UnauthorizedException, ArgumentsHost, HttpStatus, ExceptionFilter, Logger } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { BaseComponent } from '../models/components/base.component';
+import { BaseComponent } from '../../models/components/base.component';
 
 @Catch(UnauthorizedException)
 export class InvalidCredentialsFilter implements ExceptionFilter {
