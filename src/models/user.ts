@@ -1,5 +1,5 @@
 import Data from "./data/data";
-import { UserData } from "./types/user.data.type";
+import { UserDto } from "../user/dto/user.dto";
 import { UserAddress } from "./user.address";
 import { UserOrder } from "./user.order";
 import * as argon from 'argon2';
@@ -15,15 +15,15 @@ export class User {
     createdAt?: Date;
     updatedAt?: Date;
   
-    constructor(userData: UserData) {
-      this.firstName = userData.firstName;
-      this.lastName = userData.lastName;
-      this.email = userData.email;
-      this.hash = userData.hash;
+    constructor(dto: UserDto) {
+      this.firstName = dto.firstName;
+      this.lastName = dto.lastName;
+      this.email = dto.email;
+      this.hash = dto.hash;
     }
 }
 
-async function createUser(userData: UserData[]): Promise<User[]> {
+async function createUser(userData: UserDto[]): Promise<User[]> {
   const users: User[] = [];
   for (const data of userData) {
     const user = new User(data);

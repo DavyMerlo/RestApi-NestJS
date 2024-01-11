@@ -1,5 +1,5 @@
 
-export type OrderLineData = {
+export type OrderLineDto = {
     productId: number;
     orderId: number;
     quantity: number;

@@ -1,7 +1,7 @@
 import Data from "./data/data";
 import { OrderLine } from "./order.line";
 import { SubCategory } from "./sub.category";
-import { ProductData } from "./types/product.data.type";
+import { ProductDto } from "../product/dto/product.dto";
 
 export class Product {
     id?: number;
@@ -15,18 +15,18 @@ export class Product {
     createdAt?: Date;
     updatedAt?: Date;
   
-    constructor(data: ProductData) {
-      this.name = data.name;
-      this.description = data.description;
-      this.price = data.price;
-      this.release = data.release;
-      this.subCategoryId = data.subCategoryId;
+    constructor(dto: ProductDto) {
+      this.name = dto.name;
+      this.description = dto.description;
+      this.price = dto.price;
+      this.release = dto.release;
+      this.subCategoryId = dto.subCategoryId;
     }
   }
   
 
-function createProducts(productData: ProductData[]) {
-  return productData.map(
+function createProducts(dto: ProductDto[]) {
+  return dto.map(
     data => new Product(data));
 }
     

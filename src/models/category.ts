@@ -1,7 +1,7 @@
 import Data from "./data/data";
 import { Product } from "./product";
 import { SubCategory } from "./sub.category";
-import { CategoryData } from "./types/catogory.data.type";
+import { CategoryDto } from "../category/dto/catogory.dto.type";
 
 export class Category {
   id?: number;
@@ -11,13 +11,13 @@ export class Category {
   createdAt?: Date;
   updatedAt?: Date;
   
-  constructor(data: CategoryData) {
-    this.name = data.name;
+  constructor(dto: CategoryDto) {
+    this.name = dto.name;
 }
 }
 
-function createCategories(categoryData: CategoryData[]) {
-  return categoryData.map(data => new Category(data));
+function createCategories(dto: CategoryDto[]) {
+  return dto.map(data => new Category(data));
 }
 
 export const categories = createCategories(Data.categoryData);

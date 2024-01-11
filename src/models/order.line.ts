@@ -1,7 +1,7 @@
 import Data from "./data/data";
 import { Order } from "./order";
 import { Product } from "./product";
-import { OrderLineData } from "./types/orderline.data.type";
+import { OrderLineDto } from "../orderline/dto/orderline.dto";
 
 export class OrderLine {
     id?: number;
@@ -13,15 +13,15 @@ export class OrderLine {
     createdAt?: Date;
     updatedAt?: Date;
   
-    constructor(data: OrderLineData) {
-      this.quantity = data.quantity;
-      this.productId = data.productId;
-      this.orderId = data.orderId;
+    constructor(dto: OrderLineDto) {
+      this.quantity = dto.quantity;
+      this.productId = dto.productId;
+      this.orderId = dto.orderId;
     }
   }
 
-function createOrderLines(orderLineData: OrderLineData[]){
-  return orderLineData.map(data => new OrderLine(data))
+function createOrderLines(dto: OrderLineDto[]){
+  return dto.map(data => new OrderLine(data))
 } 
 
 export const orderLines = createOrderLines(Data.orderLineData);

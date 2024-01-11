@@ -1,6 +1,6 @@
 import { Address } from "./address";
 import Data from "./data/data";
-import { UserAddressData } from "./types/useraddress.data.type";
+import { UserAddressDto } from "../user.address/dto/useraddress.dto";
 import { User } from "./user";
 
 export class UserAddress {
@@ -12,14 +12,14 @@ export class UserAddress {
     createdAt?: Date;
     updatedAt?: Date;
   
-    constructor(data: UserAddressData) {
-      this.userId = data.userId;
-      this.addressId = data.addressId;
+    constructor(dto: UserAddressDto) {
+      this.userId = dto.userId;
+      this.addressId = dto.addressId;
     }
   }
   
-function createUserAddresses(userAddressesData: UserAddressData[]) {
-  return userAddressesData.map(
+function createUserAddresses(dto: UserAddressDto[]) {
+  return dto.map(
      data => new UserAddress(data));
 }
 

@@ -1,5 +1,5 @@
 
-export type UserAddressData = {
+export type UserAddressDto = {
     userId: number;
     addressId: number;
 };

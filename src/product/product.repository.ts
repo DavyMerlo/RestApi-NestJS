@@ -5,7 +5,6 @@ import { SortingOption } from "./enums/sortingoption.enum";
 import { SearchQuery } from "./types/searchcriteria.type";
 import { ProductDto } from "./dto/product.dto";
 
-
 @Injectable()
 export class ProductRepository {
 
@@ -129,13 +128,10 @@ export class ProductRepository {
 
     async addProductDB(dto: ProductDto){
         try{
+            console.log(dto)
             const newProduct = await this.db.product.create({
                 data: {
-                    name: dto.name,
-                    description: dto.description,
-                    price: dto.price,
-                    release: dto.release,
-                    subCategoryId: dto.sub_category_id,
+                    ...dto,
                 }
             });
             return newProduct;

@@ -1,31 +1,31 @@
-import { AddressData } from "../types/address.data.type";
-import { CategoryData } from "../types/catogory.data.type";
-import { OrderData } from "../types/order.data.type";
-import { OrderLineData } from "../types/orderline.data.type";
-import { ProductData } from "../types/product.data.type";
-import { SubCategoryData } from "../types/subcategory.data.type";
-import { UserData } from "../types/user.data.type";
-import { UserAddressData } from "../types/useraddress.data.type";
-import { UserOrderData } from "../types/userorder.data.type";
+import { AddressDto } from "../../address/dto/address.dto";
+import { CategoryDto } from "../../category/dto/catogory.dto.type";
+import { OrderDto } from "../../order/dto/order.dto";
+import { OrderLineDto } from "../../orderline/dto/orderline.dto";
+import { ProductDto } from "../../product/dto/product.dto";
+import { SubCategoryDto } from "../../subcategory/dto/subcategory.dto.";
+import { UserDto } from "../../user/dto/user.dto";
+import { UserAddressDto } from "../../user.address/dto/useraddress.dto";
+import { UserOrderDto } from "../../user.order/dto/userorder.dto";
 
 export default class Data {
 
-    static userData: UserData[] = [
+    static userData: UserDto[] = [
         { firstName: "Davy", lastName: "Merlo", email: "davymerlo@live.be",hash: "Merlo12345"},
         { firstName: "Wesley", lastName: "Merlo", email: "wesleymerlo@live.be",hash:"Merlo12345"},
     ];
 
-    static addressData: AddressData[] = [
+    static addressData: AddressDto[] = [
         { street: "Rootstraat", houseNumber: "30", postalCode: "3630",city:"Maasmechelen",country: "Belgium"},
         { street: "Rootstraat", houseNumber: "20", postalCode: "3500",city:"Hasselt",country: "Belgium"},
     ];
 
-    static userAddressData: UserAddressData[] = [
+    static userAddressData: UserAddressDto[] = [
         {userId: 1, addressId: 1},
         {userId: 2, addressId: 2},
     ];
 
-    static productData: ProductData[] = [
+    static productData: ProductDto[] = [
         { name: "The Shinning", description: "An eerie tale set in a remote hotel where dark forces are at play.", price: 24.99, release: new Date("2001-10-10"), subCategoryId: 1},
         { name: "Dracula", description: "The classic story of the bloodthirsty Count Dracula and his pursuit of victims.", price: 15.99, release: new Date("2002-12-10"), subCategoryId: 1},
         { name: "The Haunting of Hill House", description:"A narrative following a group of people staying in a haunted house where paranormal activity escalates.", price: 25.99, release: new Date("2008-05-12"), subCategoryId: 1},
@@ -81,13 +81,13 @@ export default class Data {
         { name: "The Witcher 3: Wild Hunt", description: "This game follows Geralt of Rivia in a vast open world, offering a rich narrative, immersive quests, and choices that impact the game's storyline and world.", price: 64.99, release: new Date("2018-10-01"), subCategoryId: 9},
     ];
   
-    static categoryData: CategoryData[] = [
+    static categoryData: CategoryDto[] = [
         { name: "Books"},
         { name: "Music"},
         { name: "Games"}
     ];
 
-    static subCategoryData: SubCategoryData[] = [
+    static subCategoryData: SubCategoryDto[] = [
         { name: "Horror", categoryId:1},
         { name: "Romance", categoryId:1},
         { name: "Thriller", categoryId:1},
@@ -99,12 +99,12 @@ export default class Data {
         { name: "Adventure", categoryId:3},
     ];
 
-    static orderData: OrderData[] = [
+    static orderData: OrderDto[] = [
         { date:  new Date("2023-01-03")},
         { date:  new Date("2023-01-05")},
     ];
 
-    static orderLineData: OrderLineData[] = [
+    static orderLineData: OrderLineDto[] = [
         {productId: 1, orderId: 1, quantity: 2},
         {productId: 6, orderId: 1, quantity: 1},
         {productId: 10, orderId: 1, quantity: 2},
@@ -112,7 +112,7 @@ export default class Data {
         {productId: 20, orderId: 2, quantity: 1},
     ];
 
-    static userOrderData: UserOrderData[] = [
+    static userOrderData: UserOrderDto[] = [
         {userId: 2, orderId: 1},
         {userId: 2, orderId: 2},
     ];

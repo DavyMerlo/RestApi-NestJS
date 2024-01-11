@@ -1,6 +1,6 @@
 import { User } from "./user";
 import { Order } from "./order";
-import { UserOrderData } from "./types/userorder.data.type";
+import { UserOrderDto } from "../user.order/dto/userorder.dto";
 import Data from "./data/data";
 
 export class UserOrder {
@@ -12,14 +12,14 @@ export class UserOrder {
     createdAt?: Date;
     updatedAt?: Date;
   
-    constructor(data: UserOrderData) {
-      this.userId = data.userId;
-      this.orderId = data.orderId;
+    constructor(dto: UserOrderDto) {
+      this.userId = dto.userId;
+      this.orderId = dto.orderId;
     }
   }
 
-function createUserOrders(userOrdersData: UserOrderData[]) {
-  return userOrdersData.map(
+function createUserOrders(dto: UserOrderDto[]) {
+  return dto.map(
     data => new UserOrder(data));
 }
       

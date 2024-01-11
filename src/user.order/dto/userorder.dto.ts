@@ -1,5 +1,5 @@
 
-export type UserOrderData = {
+export type UserOrderDto = {
     userId: number;
     orderId: number;
 };

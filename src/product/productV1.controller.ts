@@ -1,10 +1,9 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Public } from '../common/decorators';
-import { SortingOption } from './enums/sortingoption.enum';
-import { ProductDto } from './dto/product.dto';
 import { ProductComponent } from '../components/product.component';
 import { ProductDetailComponent } from '../components/productdetail.component';
+import { ProductDto } from './dto/product.dto';
 
 @Controller('api/v1/products')
 export class ProductV1Controller {

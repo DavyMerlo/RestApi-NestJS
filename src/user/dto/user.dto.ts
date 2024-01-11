@@ -1,5 +1,5 @@
 
-export type UserData = {
+export type UserDto = {
     firstName: string;
     lastName: string;
     email: string;

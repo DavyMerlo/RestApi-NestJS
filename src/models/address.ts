@@ -1,5 +1,5 @@
 import Data from "./data/data";
-import { AddressData } from "./types/address.data.type";
+import { AddressDto } from "../address/dto/address.dto";
 import { UserAddress } from "./user.address";
 
 export class Address {
@@ -13,17 +13,17 @@ export class Address {
     createdAt?: Date;
     updatedAt?: Date;
   
-    constructor(data: AddressData) {
-      this.street = data.street;
-      this.houseNumber = data.houseNumber;
-      this.postalCode = data.postalCode;
-      this.city = data.city;
-      this.country = data.country;
+    constructor(dto: AddressDto) {
+      this.street = dto.street;
+      this.houseNumber = dto.houseNumber;
+      this.postalCode = dto.postalCode;
+      this.city = dto.city;
+      this.country = dto.country;
   }
 }
 
-function createAddresses(addressData: AddressData[]) {
-  return addressData.map(data => new Address(data));
+function createAddresses(dto: AddressDto[]) {
+  return dto.map(data => new Address(data));
 }
 
 export const addresses = createAddresses(Data.addressData);

@@ -1,7 +1,7 @@
 import { User } from "./user";
 import { UserOrder } from "./user.order";
 import { OrderLine } from "./order.line";
-import { OrderData } from "./types/order.data.type";
+import { OrderDto } from "../order/dto/order.dto";
 import Data from "./data/data";
 
 export class Order {
@@ -12,13 +12,13 @@ export class Order {
   updatedAt?: Date;
   orderLines?: OrderLine[];
   
-  constructor(data: OrderData) {
-    this.date = data.date;
+  constructor(dto: OrderDto) {
+    this.date = dto.date;
   }
 }
 
-function createOrders(orderData: OrderData[]) {
-  return orderData.map(data => new Order(data));
+function createOrders(dto: OrderDto[]) {
+  return dto.map(data => new Order(data));
 }
   
 export const orders = createOrders(Data.orderData);
