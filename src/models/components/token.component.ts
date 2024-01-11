@@ -1,4 +1,4 @@
-import { Tokens } from "../auth/types/tokens.type";
+import { Tokens } from "../../auth/types/tokens.type";
 import { BaseComponent } from "./base.component";
 
 export class TokenComponent extends BaseComponent<{tokens: Tokens}> {

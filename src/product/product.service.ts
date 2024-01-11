@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
 import { mapper } from '../utils/mapper';
-import { ProductComponent } from '../components/product.component';
-import { ProductDetailComponent } from '../components/productdetail.component';
+import { ProductComponent } from '../models/components/product.component';
+import { ProductDetailComponent } from '../models/components/productdetail.component';
 import { SortingOption } from './enums/sortingoption.enum';
 import { ProductDto } from './dto/product.dto';
 

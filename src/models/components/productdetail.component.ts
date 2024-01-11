@@ -1,4 +1,4 @@
-import { ProductDetail } from "../product/types/productdetail.type";
+import { ProductDetail } from "../../product/types/productdetail.type";
 import { BaseComponent } from "./base.component";
 
 export class ProductDetailComponent extends BaseComponent<{product: ProductDetail}> {

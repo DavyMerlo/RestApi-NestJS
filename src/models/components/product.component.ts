@@ -1,5 +1,5 @@
-import { Product } from "../product/types/product.type";
-import { ProductMetaData } from "../product/types/productmetadata.type";
+import { Product } from "../../product/types/product.type";
+import { ProductMetaData } from "../../product/types/productmetadata.type";
 import { BaseComponent } from "./base.component";
 
 export class ProductComponent extends BaseComponent<{products: Product | undefined}> {

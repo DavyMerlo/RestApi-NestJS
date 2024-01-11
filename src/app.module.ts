@@ -8,9 +8,10 @@ import { SubcategoryController } from './subcategory/subcategory.controller';
 import { SubcategoryService } from './subcategory/subcategory.service';
 import { SubcategoryModule } from './subcategory/subcategory.module';
 import { CategoryModule } from './category/category.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [AuthModule, ProductModule, PrismaModule, SubcategoryModule, CategoryModule],
+    imports: [ConfigModule.forRoot({isGlobal:true}), AuthModule, ProductModule, PrismaModule, SubcategoryModule, CategoryModule],
     providers: [
         {
             provide: APP_GUARD,

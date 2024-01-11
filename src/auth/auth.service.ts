@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import * as argon from 'argon2';
 import { JwtService } from "@nestjs/jwt";
 import { Tokens } from "./types/tokens.type";
@@ -7,8 +7,9 @@ import { RegisterDto } from "./dto/register.dto";
 import { AuthRepository } from "./auth.repository";
 import { JwtPayload } from "./types/jwtPayload.type";
 import { User } from "../models/user";
-import { TokenComponent } from "../components/token.component";
-import { LogoutComponent } from "../components/logout.component";
+import { TokenComponent } from "../models/components/token.component";
+import { LogoutComponent } from "../models/components/logout.component";
+import { InvalidCredentialsException } from "../common/exceptions/invalid-credentials.exception";
 
 @Injectable({})
 export class AuthService {
@@ -21,10 +22,10 @@ export class AuthService {
     async authenticate(dto: AuthDto) : Promise<TokenComponent>{
         const user = await this.authRepository.getUserByEmail(dto.email);
         if(!user){
-            throw new NotFoundException('User not found');
+            throw new UnauthorizedException('Invalid credentials');
         }
         const passwordMatches = await argon.verify(user.hash, dto.password);
-        if(!passwordMatches) throw new ForbiddenException("Acces denied");
+        if(!passwordMatches) throw new UnauthorizedException('Invalid credentials');
         const payLoadData = this.createJwtPayload(user);
         const tokens = await this.getTokens(payLoadData);
         await this.authRepository.updateRefreshTokenUser(user.id!, tokens.refresh_token);

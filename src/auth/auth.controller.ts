@@ -4,9 +4,9 @@ import { Public, currentUser, currentUserId } from "../common/decorators";
 import { AuthDto } from "./dto/auth.dto";
 import { RegisterDto } from "./dto/register.dto";
 import { RtGuard } from "../common/guards/rt.guard";
-import { BaseComponent } from "../components/base.component";
-import { TokenComponent } from "../components/token.component";
-import { LogoutComponent } from "../components/logout.component";
+import { BaseComponent } from "../models/components/base.component";
+import { TokenComponent } from "../models/components/token.component";
+import { LogoutComponent } from "../models/components/logout.component";
 
 @Controller('api/v1/auth')
 export class AuthController {
