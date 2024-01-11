@@ -11,10 +11,8 @@ export class InvalidCredentialsFilter implements ExceptionFilter {
   catch(exception: UnauthorizedException, host: ArgumentsHost) {
     const { httpAdapter } = this.httpAdapterHost;
     const ctx = host.switchToHttp();
-
     const httpStatus = HttpStatus.UNAUTHORIZED;
     this.logger.error(`Invalid credentials: ${exception.message}`);
-
     const responseBody : BaseComponent<[]> = {
         status_code: httpStatus,
         message: 'Invalid credentials',

@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { SortingOptionsFactory } from "./factory/sortingoptions.factory";
 import { SortingOption } from "./enums/sortingoption.enum";
-import { SearchQuery } from "./types/searchcriteria.type";
 import { ProductDto } from "./dto/product.dto";
 
 @Injectable()
@@ -83,33 +82,25 @@ export class ProductRepository {
         }
     }
 
-    async searchProductsDB(query: string, limit: number | undefined){
+    async searchProductsDB(query: string | undefined, limit: number | undefined){
         try{
-            let searchQuery: SearchQuery = {
-                OR: []
-            };
-
-            if (query) {
-                searchQuery = {
-                    OR: [
-                        { name: { contains: query, mode: 'insensitive' } },
-                    ]
-                };
-            }
-
             const parsedLimit: number | undefined = limit ? limit : undefined;
             const products = await this.db.product.findMany({
-                where: searchQuery,
+                where: query
+                    ? {
+                          OR: [{ name: { contains: query, mode: 'insensitive' } }],
+                      }
+                    : {},
                 take: parsedLimit,
                 include: {
                     subCategory: {
                         include: {
-                            category: true
-                        }
+                            category: true,
+                        },
                     },
                 },
             });
-            return products;
+            return products
         }
         catch(error){
             throw new Error('Failed to fetch products');

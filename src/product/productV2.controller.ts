@@ -39,7 +39,6 @@ export class ProductV2Controller {
         @Query('query') queryParam: string,
         @Query('limit') limit: string
         ){
-            console.log(queryParam)
         return this.productService.searchProducts(queryParam, parseInt(limit) || undefined);
     }
 }    
