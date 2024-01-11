@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { ForbiddenException, Injectable, UnauthorizedException } from "@nestjs/common";
 import * as argon from 'argon2';
 import { JwtService } from "@nestjs/jwt";
 import { Tokens } from "./types/tokens.type";
@@ -9,7 +9,6 @@ import { JwtPayload } from "./types/jwtPayload.type";
 import { User } from "../models/user";
 import { TokenComponent } from "../models/components/token.component";
 import { LogoutComponent } from "../models/components/logout.component";
-import { InvalidCredentialsException } from "../common/exceptions/invalid-credentials.exception";
 
 @Injectable({})
 export class AuthService {
@@ -53,7 +52,7 @@ export class AuthService {
         const tokens = await this.getTokens(payLoadData);
         await this.authRepository.updateRefreshTokenUser(user.id, tokens.refresh_token);
         return new TokenComponent(200, 'Refresh tokens successful', tokens);
-      }
+    }
 
     async getTokens(payLoadData: JwtPayload) : Promise<Tokens> {
 

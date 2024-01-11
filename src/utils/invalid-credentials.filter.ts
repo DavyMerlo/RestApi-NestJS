@@ -1,5 +1,6 @@
 import { Catch, UnauthorizedException, ArgumentsHost, HttpStatus, ExceptionFilter, Logger } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
+import { BaseComponent } from '../models/components/base.component';
 
 @Catch(UnauthorizedException)
 export class InvalidCredentialsFilter implements ExceptionFilter {
@@ -14,11 +15,11 @@ export class InvalidCredentialsFilter implements ExceptionFilter {
     const httpStatus = HttpStatus.UNAUTHORIZED;
     this.logger.error(`Invalid credentials: ${exception.message}`);
 
-    const responseBody = {
-      statusCode: httpStatus,
-      message: 'Invalid credentials',
+    const responseBody : BaseComponent<[]> = {
+        status_code: httpStatus,
+        message: 'Invalid credentials',
+        data: [],
     };
-
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }
 }

@@ -1,10 +1,9 @@
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
-import { ValidationPipe } from "@nestjs/common";
+import { NotFoundException, ValidationPipe } from "@nestjs/common";
 import * as dotenv from 'dotenv';
-import { ConfigService } from "@nestjs/config";
-import { HttpExceptionFilter } from "./utils/exception.filter";
 import { InvalidCredentialsFilter } from "./utils/invalid-credentials.filter";
+import { NotFoundExceptionFilter } from "./utils/not-found.filter";
 
 dotenv.config();
 if(!process.env.PORT){
@@ -21,7 +20,8 @@ async function bootstrap() {
     }));
 
     app.useGlobalFilters(
-        new InvalidCredentialsFilter(httpAdapterHost));
+        new InvalidCredentialsFilter(httpAdapterHost),
+        new NotFoundExceptionFilter(httpAdapterHost)),
     await app.listen(PORT);
 }
 bootstrap();

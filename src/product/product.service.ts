@@ -14,13 +14,15 @@ export class ProductService {
     ){}
 
     async products() : Promise<ProductComponent> {
-        const products = await this.productRepository.productsDB();
-        const mappedProducts = mapper.mapProduct(products);
+        const productsDB = await this.productRepository.productsDB();
+        if(!productsDB || productsDB.length === 0) throw new NotFoundException();
+        const mappedProducts = mapper.mapProduct(productsDB);
         return new ProductComponent(200, "succesfull", mappedProducts);
     }
 
     async productById(id: number) : Promise<ProductDetailComponent> {
         const productDetail = await this.productRepository.productByIdDB(id);
+        if(!productDetail) throw new NotFoundException(id);
         const mappedProductDetail = mapper.mapProductDetail(productDetail);
         return new ProductDetailComponent(200, "succesfull", mappedProductDetail);
     }
@@ -48,9 +50,7 @@ export class ProductService {
             offset, 
             limit
             );
-        if(!productsDB || productsDB.length === 0){
-            throw new Error('No products found');
-        }
+        if(!productsDB || productsDB.length === 0) throw new NotFoundException();
         const mappedProducts = mapper.mapProduct(productsDB);
         const productCountDB = await this.productRepository.productCount();
         const pages: number = Math.ceil(productCountDB / pageSize);
