@@ -15,5 +15,8 @@ export class ProductDto {
     release: Date;
 
     @IsNotEmpty()
-    categoryId: number
+    category_id: number
+
+    @IsNotEmpty()
+    sub_category_id: number
 }

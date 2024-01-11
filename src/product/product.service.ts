@@ -4,6 +4,7 @@ import { mapper } from '../utils/mapper';
 import { ProductComponent } from '../components/product.component';
 import { ProductDetailComponent } from '../components/productdetail.component';
 import { SortingOption } from './enums/sortingoption.enum';
+import { ProductDto } from './dto/product.dto';
 
 @Injectable({})
 export class ProductService {
@@ -67,5 +68,10 @@ export class ProductService {
             hasPrevious: hasPrevious
         };
         return new ProductComponent(200, 'success', mappedProducts, metaData);
+    }
+
+    async addProduct(dto: ProductDto){
+        const newProduct = this.productRepository.addProductDB(dto);
+        return newProduct;
     }
 }

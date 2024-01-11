@@ -3,6 +3,7 @@ import { PrismaService } from "../prisma/prisma.service";
 import { SortingOptionsFactory } from "./factory/sortingoptions.factory";
 import { SortingOption } from "./enums/sortingoption.enum";
 import { SearchQuery } from "./types/searchcriteria.type";
+import { ProductDto } from "./dto/product.dto";
 
 
 @Injectable()
@@ -123,6 +124,23 @@ export class ProductRepository {
         }
         catch(error){
             throw new Error('Failed to count products');
+        }
+    }
+
+    async addProductDB(dto: ProductDto){
+        try{
+            const newProduct = await this.db.product.create({
+                data: {
+                    name: dto.name,
+                    description: dto.description,
+                    price: dto.price,
+                    release: dto.release,
+                    subCategoryId: dto.sub_category_id,
+                }
+            });
+            return newProduct;
+        }catch(error){
+            throw new Error('Failed to add product');
         }
     }
 }
