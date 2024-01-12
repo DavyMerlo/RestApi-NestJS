@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
 import { mapper } from '../utils/mapper';
 import { ProductComponent } from '../models/components/product.component';
@@ -15,14 +15,14 @@ export class ProductService {
 
     async products() : Promise<ProductComponent> {
         const productsDB = await this.productRepository.productsDB();
-        if(!productsDB || productsDB.length === 0) throw new NotFoundException();
+        if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
         const mappedProducts = mapper.mapProduct(productsDB);
         return new ProductComponent(200, "succesfull", mappedProducts);
     }
 
     async productById(id: number) : Promise<ProductDetailComponent> {
         const productDetail = await this.productRepository.productByIdDB(id);
-        if(!productDetail) throw new NotFoundException(id);
+        if(!productDetail) throw new NotFoundException(`No product found wit Id: ${id}`);
         const mappedProductDetail = mapper.mapProductDetail(productDetail);
         return new ProductDetailComponent(200, "succesfull", mappedProductDetail);
     }
@@ -31,6 +31,7 @@ export class ProductService {
         query: string, 
         limit: number | undefined) {
         const productsDB = await this.productRepository.searchProductsDB(query, limit);
+        if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
         const mappedProducts = mapper.mapProduct(productsDB);
         return new ProductComponent(200, "succesfull", mappedProducts);
     };
@@ -50,7 +51,7 @@ export class ProductService {
             offset, 
             limit
             );
-        if(!productsDB || productsDB.length === 0) throw new NotFoundException();
+        if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
         const mappedProducts = mapper.mapProduct(productsDB);
         const productCountDB = await this.productRepository.productCount();
         const pages: number = Math.ceil(productCountDB / pageSize);
@@ -67,7 +68,7 @@ export class ProductService {
             hasNext: hasNext,
             hasPrevious: hasPrevious
         };
-        return new ProductComponent(200, 'success', mappedProducts, metaData);
+        return new ProductComponent(200, 'successfull', mappedProducts, metaData);
     }
 
     async addProduct(dto: ProductDto): Promise<ProductDetailComponent>{

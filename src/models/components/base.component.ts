@@ -1,6 +1,6 @@
 export class BaseComponent<T> {
     status_code: number;
-    message: string;
+    message: string | object;
     data?: T;
 
     constructor(statuscode: number, message: string, data?: T){

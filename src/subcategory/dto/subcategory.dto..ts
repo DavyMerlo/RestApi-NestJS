@@ -1,5 +1,5 @@
 
-export type SubCategoryDto = {
+export class SubCategoryDto {
     name: string;
     categoryId: number;
 };

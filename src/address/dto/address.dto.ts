@@ -1,5 +1,5 @@
 
-export type AddressDto = {
+export class AddressDto {
     street: string;
     houseNumber: string;
     postalCode: string;

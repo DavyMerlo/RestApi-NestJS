@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { ForbiddenException, Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import * as argon from 'argon2';
 import { JwtService } from "@nestjs/jwt";
 import { Tokens } from "./types/tokens.type";
@@ -21,10 +21,12 @@ export class AuthService {
     async authenticate(dto: AuthDto) : Promise<TokenComponent>{
         const user = await this.authRepository.getUserByEmail(dto.email);
         if(!user){
-            throw new UnauthorizedException('Invalid credentials');
+            throw new UnauthorizedException('Unable to login. Invalid credentials');
         }
         const passwordMatches = await argon.verify(user.hash, dto.password);
-        if(!passwordMatches) throw new UnauthorizedException('Invalid credentials');
+        if(!passwordMatches) {
+            throw new UnauthorizedException('Unable to login. Invalid credentials');
+        }
         const payLoadData = this.createJwtPayload(user);
         const tokens = await this.getTokens(payLoadData);
         await this.authRepository.updateRefreshTokenUser(user.id!, tokens.refresh_token);
@@ -32,6 +34,10 @@ export class AuthService {
     }
 
     async register(dto: RegisterDto) : Promise<TokenComponent>{
+        const emailExists = await this.authRepository.getUserByEmail(dto.email);
+        if(emailExists?.email){
+            throw new NotAcceptableException('Email already in use');
+        }
         const user = await this.authRepository.createUser(dto);
         const payLoadData = this.createJwtPayload(user);
         const tokens = await this.getTokens(payLoadData);
@@ -40,14 +46,21 @@ export class AuthService {
 
     async logout(userId: number) : Promise<LogoutComponent>{
         const isLogout = await this.authRepository.updateAllRefreshTokensUser(userId);
+        if(!isLogout){
+            throw new NotFoundException('Logout unsuccesfull');
+        }
         return new LogoutComponent(200, 'Logout successful', isLogout);
     }
 
     async refreshTokens(userId: number, rt: string): Promise<TokenComponent> {
         const user = await this.authRepository.getUserById(userId);
-        if (!user || !user.hashedRt) throw new ForbiddenException('Access Denied');
+        if (!user || !user.hashedRt) {
+            throw new UnauthorizedException("Invalid credentials");
+        }
         const rtMatches = await argon.verify(user.hashedRt, rt);
-        if (!rtMatches) throw new ForbiddenException('Access Denied');
+        if (!rtMatches) {
+            throw new UnauthorizedException('Refresh token mismatch');
+        }
         const payLoadData = this.createJwtPayload(user);
         const tokens = await this.getTokens(payLoadData);
         await this.authRepository.updateRefreshTokenUser(user.id, tokens.refresh_token);

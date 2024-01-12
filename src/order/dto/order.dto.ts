@@ -1,3 +1,3 @@
-export type OrderDto = {
+export class OrderDto {
     date: Date;
 };
