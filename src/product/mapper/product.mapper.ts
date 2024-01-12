@@ -1,6 +1,5 @@
-import { SubCategory, subCategories } from "../models/sub.category";
-import { Product } from "../product/types/product.type"
-import { ProductDetail } from "../product/types/productdetail.type";
+import { Product } from "../types/product.type"
+import { ProductDetail } from "../types/productdetail.type";
 
 
 export const mapper = {

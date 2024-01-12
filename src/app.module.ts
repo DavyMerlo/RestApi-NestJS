@@ -4,13 +4,9 @@ import { ProductModule } from './product/product.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards/at.guard';
-import { SubcategoryController } from './subcategory/subcategory.controller';
-import { SubcategoryService } from './subcategory/subcategory.service';
 import { SubcategoryModule } from './subcategory/subcategory.module';
 import { CategoryModule } from './category/category.module';
 import { ConfigModule } from '@nestjs/config';
-import { UserController } from './user/user.controller';
-import { UserService } from './user/user.service';
 
 @Module({
     imports: [ConfigModule.forRoot({isGlobal:true}), AuthModule, ProductModule, PrismaModule, SubcategoryModule, CategoryModule],
@@ -19,9 +15,6 @@ import { UserService } from './user/user.service';
             provide: APP_GUARD,
             useClass: AtGuard
         },
-        SubcategoryService,
-        UserService
     ],
-    controllers: [SubcategoryController, UserController]
 })
 export class AppModule {}

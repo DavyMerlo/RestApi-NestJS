@@ -1,10 +1,10 @@
 import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
-import { mapper } from '../utils/mapper';
 import { ProductComponent } from '../models/components/product.component';
 import { ProductDetailComponent } from '../models/components/productdetail.component';
 import { SortingOption } from './enums/sortingoption.enum';
 import { ProductDto } from './dto/product.dto';
+import { mapper } from './mapper/product.mapper';
 
 @Injectable({})
 export class ProductService {
