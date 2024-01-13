@@ -7,9 +7,16 @@ import { AtGuard } from './common/guards/at.guard';
 import { SubcategoryModule } from './subcategory/subcategory.module';
 import { CategoryModule } from './category/category.module';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
 
 @Module({
-    imports: [ConfigModule.forRoot({isGlobal:true}), AuthModule, ProductModule, PrismaModule, SubcategoryModule, CategoryModule],
+    imports: [ConfigModule.forRoot({isGlobal:true}), 
+        AuthModule, 
+        ProductModule, 
+        PrismaModule, 
+        SubcategoryModule, 
+        CategoryModule, 
+        UserModule],
     providers: [
         {
             provide: APP_GUARD,

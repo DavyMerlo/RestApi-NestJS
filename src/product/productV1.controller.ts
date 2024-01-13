@@ -8,7 +8,10 @@ import { ProductDto } from './dto/product.dto';
 @Controller('api/v1/products')
 export class ProductV1Controller {
 
-    constructor(private productService: ProductService) {}
+    constructor(
+    private productService: ProductService
+    ) 
+    {}
 
     @Public()
     @Get()
@@ -28,6 +31,7 @@ export class ProductV1Controller {
     @Post()
     @HttpCode(HttpStatus.CREATED)
     addProduct(@Body() dto: ProductDto){
+        console.log(dto);
         return this.productService.addProduct(dto);
     }
 }

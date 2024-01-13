@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
+import { SubCategoryDto } from "./dto/subcategory.dto.";
 
 @Injectable()
 export class SubCategoryRepository {
-
     constructor(private readonly db: PrismaService){}
 
     async subCategoriesDB(){
@@ -37,4 +37,16 @@ export class SubCategoryRepository {
         }
     }
 
+    async addSubCategoryDB(dto: SubCategoryDto) {
+        try{
+            const newSubCategory = await this.db.subCategory.create({
+                data: {
+                    ...dto,
+                }
+            });
+            return newSubCategory;
+        }catch(error){
+            throw new Error('Failed to add subcategory');
+        }
+    }
 }

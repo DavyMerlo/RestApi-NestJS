@@ -1,7 +1,9 @@
 import { SubcategoryService } from './subcategory.service';
 import { SubCategoryComponent } from '../models/components/subcategory.component';
-import { Body, Controller, Get, HttpCode, HttpStatus} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post} from '@nestjs/common';
 import { Public } from '../common/decorators';
+import { SubCategoryDetailComponent } from '../models/components/subcategorydetail.component';
+import { SubCategoryDto } from './dto/subcategory.dto.';
 
 @Controller('api/v1/subcategories')
 export class SubcategoryController {
@@ -13,6 +15,21 @@ export class SubcategoryController {
     @HttpCode(HttpStatus.OK)
     subCategories() : Promise<SubCategoryComponent> {
         return this.subCategoryService.subCategories();
+    }
+
+    @Public()
+    @Get(':id')
+    @HttpCode(HttpStatus.OK)
+    subCategoryById(@Param('id') id: string): Promise<SubCategoryDetailComponent>{
+        return this.subCategoryService.subCategoryById(parseInt(id));
+    }
+
+    @Public()
+    @Post()
+    @HttpCode(HttpStatus.CREATED)
+    addSubCategory(@Body() dto: SubCategoryDto){
+        console.log('object: ' + dto)
+        return this.subCategoryService.addSubCategory(dto);
     }
 }
 

@@ -119,7 +119,6 @@ export class ProductRepository {
 
     async addProductDB(dto: ProductDto){
         try{
-            console.log(dto)
             const newProduct = await this.db.product.create({
                 data: {
                     ...dto,
