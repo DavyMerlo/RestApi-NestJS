@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { mapper } from './mapper/user.mapper';
 import { UserComponent } from '../models/components/user.component';
+import { UserDetailComponent } from '../models/components/userdetail.component';
 
 @Injectable({})
 export class UserService {
@@ -18,9 +19,10 @@ export class UserService {
         return new UserComponent(200, "succesfull", mappedUsers);
     }
 
-    async userById(id: number){
+    async userById(id: number): Promise<UserDetailComponent>{
         const userDetail = await this.userRepository.userByIdDB(id);
         if(!userDetail) throw new NotFoundException('No user found with Id: ' + id);
-        return userDetail;
+        const mappedUserDetail = mapper.mapUserDetail(userDetail);
+        return new UserDetailComponent(200, "succesfull", mappedUserDetail);
     }
 }

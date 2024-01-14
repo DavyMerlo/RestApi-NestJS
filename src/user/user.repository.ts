@@ -22,8 +22,16 @@ export class UserRepository {
                     id: id
                 },
                 include: {
-                    userAddresses: true,
-                    userOrders: true
+                    userAddresses: {
+                        include: {
+                            address: true
+                        }
+                    },
+                    userOrders: {
+                        include: {
+                            order: true
+                        }
+                    }
                 }
             });
             return user;

@@ -1,4 +1,4 @@
-import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
 import { ProductComponent } from '../models/components/product.component';
 import { ProductDetailComponent } from '../models/components/productdetail.component';
