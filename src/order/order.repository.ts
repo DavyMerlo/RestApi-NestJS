@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
+import { OrderDto } from "./dto/order.dto";
 
 
 @Injectable()
@@ -20,7 +21,7 @@ export class OrderRepository {
         }
     }
 
-    async ordersById(id: number){
+    async orderById(id: number){
         try{
             const orderDetail = await this.db.order.findUnique({
                 where: {
@@ -37,6 +38,19 @@ export class OrderRepository {
             return orderDetail;
         }catch(error){
             throw new Error('Failed to fetch order with ' + id);
+        }
+    }
+
+    async addOrder(dto: OrderDto){
+        try{
+            const newOrder = await this.db.order.create({
+                data: {
+                    ...dto
+                }
+            });
+            return newOrder;
+        }catch(error){
+            throw new Error('Failed to add order');
         }
     }
 }

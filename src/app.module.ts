@@ -11,6 +11,9 @@ import { UserModule } from './user/user.module';
 import { AddressModule } from './address/address.module';
 import { UserAddressModule } from './user.address/user.address.module';
 import { OrderModule } from './order/order.module';
+import { OrderlineService } from './orderline/orderline.service';
+import { OrderlineController } from './orderline/orderline.controller';
+import { OrderlineModule } from './orderline/orderline.module';
 
 @Module({
     imports: [ConfigModule.forRoot({isGlobal:true}), 
@@ -22,12 +25,15 @@ import { OrderModule } from './order/order.module';
         UserModule,
         AddressModule,
         UserAddressModule,
-        OrderModule],
+        OrderModule,
+        OrderlineModule],
     providers: [
         {
             provide: APP_GUARD,
             useClass: AtGuard
         },
+        OrderlineService,
     ],
+    controllers: [OrderlineController],
 })
 export class AppModule {}
