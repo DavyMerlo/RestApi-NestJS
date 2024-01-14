@@ -3,11 +3,6 @@ import { ForbiddenException, UnauthorizedException, NotFoundException } from '@n
 import { BaseComponent } from '../../models/components/base.component';
 import { HttpAdapterHost } from '@nestjs/core';
 
-type ErrorResponse = {
-    message: string,
-    error: string,
-    statusCode: number
-}
 
 @Catch(ForbiddenException)
 export class ForbiddenExceptionFilter implements ExceptionFilter {

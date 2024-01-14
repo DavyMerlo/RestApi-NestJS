@@ -1,8 +1,8 @@
 import { Controller, Get, HttpCode, HttpStatus, Query, Req} from '@nestjs/common';
 import { Request } from "express";
 import { ProductService } from './product.service';
-import { Public } from '../common/decorators';
 import { SortingOption } from './enums/sortingoption.enum';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('api/v2/products')
 export class ProductV2Controller {

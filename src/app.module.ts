@@ -8,6 +8,7 @@ import { SubcategoryModule } from './subcategory/subcategory.module';
 import { CategoryModule } from './category/category.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
     imports: [ConfigModule.forRoot({isGlobal:true}), 
@@ -16,7 +17,8 @@ import { UserModule } from './user/user.module';
         PrismaModule, 
         SubcategoryModule, 
         CategoryModule, 
-        UserModule],
+        UserModule,
+        AddressModule],
     providers: [
         {
             provide: APP_GUARD,

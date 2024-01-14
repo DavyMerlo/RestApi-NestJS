@@ -1,9 +1,9 @@
 import { SubcategoryService } from './subcategory.service';
 import { SubCategoryComponent } from '../models/components/subcategory.component';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post} from '@nestjs/common';
-import { Public } from '../common/decorators';
 import { SubCategoryDetailComponent } from '../models/components/subcategorydetail.component';
 import { SubCategoryDto } from './dto/subcategory.dto.';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('api/v1/subcategories')
 export class SubcategoryController {

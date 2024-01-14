@@ -1,12 +1,14 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { Public, currentUser, currentUserId } from "../common/decorators";
 import { AuthDto } from "./dto/auth.dto";
 import { RegisterDto } from "./dto/register.dto";
 import { RtGuard } from "../common/guards/rt.guard";
 import { BaseComponent } from "../models/components/base.component";
 import { TokenComponent } from "../models/components/token.component";
 import { LogoutComponent } from "../models/components/logout.component";
+import { Public } from "../common/decorators/public.decorator";
+import { currentUserId } from "../common/decorators/current-user-id.decorator";
+import { currentUser } from "../common/decorators/current-user.decorator";
 
 @Controller('api/v1/auth')
 export class AuthController {
