@@ -3,7 +3,6 @@ import { UserRepository } from './user.repository';
 import { userMapper } from './mapper/user.mapper';
 import { UserComponent } from '../models/components/user.component';
 import { UserDetailComponent } from '../models/components/userdetail.component';
-import { use } from 'passport';
 
 @Injectable({})
 export class UserService {
