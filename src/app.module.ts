@@ -9,6 +9,7 @@ import { CategoryModule } from './category/category.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { AddressModule } from './address/address.module';
+import { UserAddressModule } from './user.address/user.address.module';
 
 @Module({
     imports: [ConfigModule.forRoot({isGlobal:true}), 
@@ -18,7 +19,8 @@ import { AddressModule } from './address/address.module';
         SubcategoryModule, 
         CategoryModule, 
         UserModule,
-        AddressModule],
+        AddressModule,
+        UserAddressModule],
     providers: [
         {
             provide: APP_GUARD,

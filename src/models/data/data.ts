@@ -22,6 +22,7 @@ export default class Data {
 
     static userAddressData: UserAddressDto[] = [
         {userId: 1, addressId: 1},
+        {userId: 2, addressId: 1},
         {userId: 2, addressId: 2},
     ];
 

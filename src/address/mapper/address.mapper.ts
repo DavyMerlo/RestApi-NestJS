@@ -1,7 +1,7 @@
 import { Address } from "../types/address.type";
 
 
-export const mapper = {
+export const addressMapper = {
     mapAddresses : (addresses: any): Address => {
         return addresses.map((prop: any) => ({
             id: prop.id,

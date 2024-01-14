@@ -1,8 +1,7 @@
-import { addresses } from "../../models/address";
 import { User } from "../types/user.type";
 import { UserDetail } from "../types/userdetail.type";
 
-export const mapper = {
+export const userMapper = {
     mapUser : (user: any): User => {
         return user.map((prop: any) => ({
             id: prop.id,
