@@ -4,6 +4,7 @@ import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class UserRepository {
+    
     constructor(private readonly db: PrismaService){}
 
     async usersDB(){

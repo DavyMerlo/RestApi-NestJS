@@ -11,14 +11,14 @@ export class UserAddressService {
     )
     {}
 
-    async addressByUserId(userId: number){
+    async addressesByUserId(userId: number){
         const addressByUserIdDB = await this.userAddressRepository.addressesByUserId(userId);
         const addressesToMap = addressByUserIdDB.map(item => item.address);
         return addressMapper.mapAddresses(addressesToMap);
     }
 
-    async userByAddressId(addressId: number){
-        const userByAddressIdDb = await this.userAddressRepository.userByAddressId(addressId);
+    async usersByAddressId(addressId: number){
+        const userByAddressIdDb = await this.userAddressRepository.usersByAddressId(addressId);
         const userToMap = userByAddressIdDb.map(item => item.user);
         return userMapper.mapUser(userToMap);
     }

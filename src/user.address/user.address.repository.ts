@@ -24,7 +24,7 @@ export class UserAddressRepository {
         }
     }
 
-    async userByAddressId(addressId: number){
+    async usersByAddressId(addressId: number){
         try{
             const userAddresses = await this.db.userAddress.findMany({
                 where: {
