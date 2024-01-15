@@ -2,10 +2,21 @@ import { Injectable } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
 
 
-// @Injectable()
-// export class UserOrderRepository {
+@Injectable()
+export class UserOrderRepository {
 
-//     constructor(private readonly db: PrismaClient) {}
+    constructor(private readonly db: PrismaClient) {}
 
-//     async addUserOrder()
-// }
+    async addUserOrder(userId: number, orderId: number){
+        try{
+            const userOrder = await this.db.userOrder.create({
+                data: {
+                    userId: userId,
+                    orderId: orderId,
+                }
+            });
+        }catch(error){
+            throw new Error('Failed to add userorder');
+        }
+    }
+}
