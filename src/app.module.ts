@@ -14,6 +14,7 @@ import { OrderModule } from './order/order.module';
 import { OrderlineService } from './orderline/orderline.service';
 import { OrderlineController } from './orderline/orderline.controller';
 import { OrderlineModule } from './orderline/orderline.module';
+import { UserOrderModule } from './user.order/user.order.module';
 
 @Module({
     imports: [ConfigModule.forRoot({isGlobal:true}), 
@@ -26,7 +27,8 @@ import { OrderlineModule } from './orderline/orderline.module';
         AddressModule,
         UserAddressModule,
         OrderModule,
-        OrderlineModule],
+        OrderlineModule,
+        UserOrderModule],
     providers: [
         {
             provide: APP_GUARD,

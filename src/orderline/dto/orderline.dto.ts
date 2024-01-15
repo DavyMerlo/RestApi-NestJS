@@ -1,6 +1,10 @@
+import { IsNotEmpty } from "class-validator";
 
 export class OrderLineDto {
+
+    @IsNotEmpty()
     productId: number;
-    orderId: number;
+
+    @IsNotEmpty()
     quantity: number;
 };

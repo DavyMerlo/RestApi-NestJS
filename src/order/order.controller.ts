@@ -26,7 +26,7 @@ export class OrderController {
     @Post()
     @HttpCode(HttpStatus.CREATED)
     addProduct(@Body() dto: OrderDto){
-        console.log(dto);
+        console.log(dto)
         return this.orderService.addOrder(dto);
     }
 }
