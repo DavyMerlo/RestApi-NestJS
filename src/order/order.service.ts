@@ -4,12 +4,16 @@ import { orderMapper } from './mapper/order.mapper';
 import { OrderComponent } from '../models/components/order.component';
 import { OrderDetailComponent } from '../models/components/orderdetail.component';
 import { OrderDto } from './dto/order.dto';
+import { OrderLineService } from '../orderline/orderline.service';
+import { UserOrderService } from '../user.order/user.order.service';
 
 @Injectable()
 export class OrderService {
 
     constructor(
-        private orderRepository: OrderRepository
+        private orderRepository: OrderRepository,
+        private orderLineService: OrderLineService,
+        private userOrderService: UserOrderService
         )
         {}
 
@@ -29,8 +33,11 @@ export class OrderService {
 
     async addOrder(dto: OrderDto) {
         const createdOrder = await this.orderRepository.addOrder(dto);
+        const orderId = createdOrder.id;
+        await this.orderLineService.addOrderLinesByOrderId(orderId, dto.order_lines);
+        await this.userOrderService.addUserOrder(parseInt(dto.userId), orderId);
         const orderDetail = await this.orderRepository.orderById(createdOrder.id);
         const mappedOrderDetail = orderMapper.mapOrderDetail(orderDetail);
-        return new OrderDetailComponent(200, "succesfull", mappedOrderDetail);
+        return new OrderDetailComponent(201, 'succesfull', mappedOrderDetail);
     }
 }

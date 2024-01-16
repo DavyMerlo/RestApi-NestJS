@@ -5,6 +5,9 @@ import { SubCategoryRepository } from './subcategory.repostory';
 
 @Module({
     controllers: [SubcategoryController],
-    providers: [SubcategoryService, SubCategoryRepository]
+    providers: [
+        SubcategoryService, 
+        SubCategoryRepository
+    ]
 })
 export class SubcategoryModule {}

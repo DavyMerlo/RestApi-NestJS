@@ -5,6 +5,9 @@ import { AddressRepository } from './address.repository';
 
 @Module({
   controllers: [AddressController],
-  providers: [AddressService, AddressRepository]
+  providers: [
+    AddressService, 
+    AddressRepository
+  ]
 })
 export class AddressModule {}

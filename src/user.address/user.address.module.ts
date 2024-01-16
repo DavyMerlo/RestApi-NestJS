@@ -5,7 +5,10 @@ import { UserAddressRepository } from './user.address.repository';
 
 @Module({
   controllers: [UserAddressController],
-  providers: [UserAddressService, UserAddressRepository]
+  providers: [
+    UserAddressService, 
+    UserAddressRepository
+  ]
 })
 export class UserAddressModule {
 

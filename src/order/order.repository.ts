@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { OrderDto } from "./dto/order.dto";
-import { Prisma } from "@prisma/client";
 
 
 @Injectable()
@@ -47,21 +46,6 @@ export class OrderRepository {
             const newOrder = await this.db.order.create({
                 data: {
                     date: dto.date
-                },
-            });
-            const orderId = newOrder.id;
-            const orderLinesData = dto.order_lines.map((orderLine) => ({
-                ...orderLine,
-                orderId: orderId,
-            }));
-
-            const newOrderLines = await this.db.orderLine.createMany({
-                data: orderLinesData,
-            });
-            const newUserOrder = await this.db.userOrder.create({
-                data: {
-                    userId: parseInt(dto.userId),
-                    orderId: newOrder.id,
                 },
             });
         return newOrder;

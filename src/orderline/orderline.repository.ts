@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client";
+import { PrismaService } from "../prisma/prisma.service";
 import { OrderLineDto } from "./dto/orderline.dto";
 
 
 @Injectable()
 export class OrderLineRepository {
-
-    constructor(private readonly db: PrismaClient){}
+    
+    constructor(private readonly db: PrismaService){}
 
     async orderLines(){
         try{
@@ -39,7 +39,7 @@ export class OrderLineRepository {
         }
     }
 
-    async addOrderLineByOrderId(orderId: number, dto: OrderLineDto[]){
+    async addOrderLinesByOrderId(orderId: number, dto: OrderLineDto[]){
         try{
             const orderLinesData = dto.map((orderLine) => ({
                 ...orderLine,

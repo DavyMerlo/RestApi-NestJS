@@ -11,31 +11,28 @@ import { UserModule } from './user/user.module';
 import { AddressModule } from './address/address.module';
 import { UserAddressModule } from './user.address/user.address.module';
 import { OrderModule } from './order/order.module';
-import { OrderlineService } from './orderline/orderline.service';
-import { OrderlineController } from './orderline/orderline.controller';
-import { OrderlineModule } from './orderline/orderline.module';
 import { UserOrderModule } from './user.order/user.order.module';
+import { OrderlineModule } from './orderline/orderline.module';
 
 @Module({
     imports: [ConfigModule.forRoot({isGlobal:true}), 
-        AuthModule, 
-        ProductModule, 
-        PrismaModule, 
-        SubcategoryModule, 
-        CategoryModule, 
+        PrismaModule,
+        AuthModule,
         UserModule,
         AddressModule,
         UserAddressModule,
+        CategoryModule,
+        SubcategoryModule,
+        ProductModule,
         OrderModule,
+        UserOrderModule,
         OrderlineModule,
-        UserOrderModule],
-    providers: [
+        ],
+        providers: [
         {
             provide: APP_GUARD,
             useClass: AtGuard
         },
-        OrderlineService,
     ],
-    controllers: [OrderlineController],
 })
 export class AppModule {}
