@@ -31,7 +31,6 @@ export class ProductV1Controller {
     @Post()
     @HttpCode(HttpStatus.CREATED)
     addProduct(@Body() dto: ProductDto){
-        console.log(dto);
         return this.productService.addProduct(dto);
     }
 }

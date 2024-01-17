@@ -22,4 +22,8 @@ export class OrderLineService {
     async addOrderLinesByOrderId(orderId: number, dto: OrderLineDto[]){
         await this.orderLineRepository.addOrderLinesByOrderId(orderId, dto);
     }
+
+    async updateOrderLinesByOrderId(orderId: number, dto: OrderLineDto[]){
+        await this.orderLineRepository.updateOrderLinesByOrderId(orderId, dto);
+    }
 }

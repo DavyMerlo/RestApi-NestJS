@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { OrderLineDto } from "./dto/orderline.dto";
+import { Prisma } from "@prisma/client";
 
 
 @Injectable()
@@ -50,6 +51,58 @@ export class OrderLineRepository {
             });
         }catch(error){
             throw new Error('Failed to add orderline');
+        }
+    }
+
+    async updateOrderLinesByOrderId(orderId: number, dto: OrderLineDto[]){
+        try{
+            const currentOrderLines = await this.db.orderLine.findMany({
+                where: {
+                    orderId: orderId,
+                },
+            });
+
+            for (const orderline of dto) {
+                const currentOrderLine = currentOrderLines.find(
+                    (line) => line.productId === orderline.productId
+                );
+
+                if (currentOrderLine) {
+                    this.updateOrderLineById(currentOrderLine.id, orderline.quantity);
+                } else {
+                    this.addOrderLineByOrderId(orderId, orderline);
+                }
+            }
+        }catch(error){
+            throw new Error('Failed to update orderlines with orderId: ' + orderId);
+        }
+    }
+
+    async addOrderLineByOrderId(orderId: number, dto: OrderLineDto){
+        try{
+            await this.db.orderLine.create({
+                data: {
+                    ...dto,
+                    orderId: orderId
+                }
+            })
+        }catch(error){
+            throw new Error('Fail to add orderline with orderId ' + orderId);
+        }
+    }
+
+    async updateOrderLineById(id: number, quantity: number){
+        try{
+            await this.db.orderLine.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    quantity
+                }
+            });
+        }catch(error){
+            throw new Error('Failed to update orderline with Id: ' + id);
         }
     }
 }

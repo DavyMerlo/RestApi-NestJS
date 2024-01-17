@@ -1,5 +1,5 @@
 import { OrderService } from './order.service';
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put} from '@nestjs/common';
 import { Public } from '../common/decorators/public.decorator';
 import { OrderDto } from './dto/order.dto';
 
@@ -25,8 +25,14 @@ export class OrderController {
     @Public()
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    addProduct(@Body() dto: OrderDto){
-        console.log(dto)
+    addOrder(@Body() dto: OrderDto){
         return this.orderService.addOrder(dto);
+    }
+
+    @Public()
+    @Put(':id')
+    @HttpCode(HttpStatus.CREATED)
+    updateOrder(@Param('id') id: string, @Body() dto: OrderDto){
+        return this.orderService.updateOrderById(parseInt(id), dto);
     }
 }

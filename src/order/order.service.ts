@@ -32,12 +32,20 @@ export class OrderService {
     }
 
     async addOrder(dto: OrderDto) {
-        const createdOrder = await this.orderRepository.addOrder(dto);
+        const createdOrder = await this.orderRepository.addOrder();
         const orderId = createdOrder.id;
         await this.orderLineService.addOrderLinesByOrderId(orderId, dto.order_lines);
         await this.userOrderService.addUserOrder(parseInt(dto.userId), orderId);
         const orderDetail = await this.orderRepository.orderById(createdOrder.id);
         const mappedOrderDetail = orderMapper.mapOrderDetail(orderDetail);
         return new OrderDetailComponent(201, 'succesfull', mappedOrderDetail);
+    }
+
+    async updateOrderById(id: number, dto: OrderDto){
+        const updatedOrder = await this.orderRepository.updateOrderId(id);
+        await this.orderLineService.updateOrderLinesByOrderId(updatedOrder.id, dto.order_lines);
+        const orderDetail = await this.orderRepository.orderById(updatedOrder.id);
+        const mapOrderDetail = orderMapper.mapOrderDetail(orderDetail);
+        return new OrderDetailComponent(200, 'succesfull', mapOrderDetail);
     }
 }

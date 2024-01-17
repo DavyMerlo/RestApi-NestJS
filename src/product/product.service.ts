@@ -75,6 +75,6 @@ export class ProductService {
         const createdProduct = await this.productRepository.addProductDB(dto);
         const productDetail = await this.productRepository.productByIdDB(createdProduct.id);
         const mappedProductDetail = mapper.mapProductDetail(productDetail);
-        return new ProductDetailComponent(200, "succesfull", mappedProductDetail);
+        return new ProductDetailComponent(201, "succesfull", mappedProductDetail);
     }
 }

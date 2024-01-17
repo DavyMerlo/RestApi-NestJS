@@ -8,8 +8,5 @@ export class OrderDto {
     userId: string;
 
     @IsNotEmpty()
-    date: Date;
-
-    @IsNotEmpty()
     order_lines: OrderLineDto[]
 };
