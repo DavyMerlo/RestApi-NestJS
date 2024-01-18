@@ -21,17 +21,20 @@ export class SubcategoryService {
     }
 
     async subCategoryById(id: number) {
-        const subCategoryDetailDB = await this.subCategoryRepository.subCategoryByIdDB(id);
-        if(!subCategoryDetailDB) throw new NotFoundException(`No subcategory found wit Id: ${id}`);
-        const mappedSubCategoryDetail = subCategoryMapper.mapSubCategoryDetail(subCategoryDetailDB);
+        const mappedSubCategoryDetail = await this.subCategoryDetailMap(id);
         return new SubCategoryDetailComponent(200, "succesfull", mappedSubCategoryDetail);
     }
 
     async addSubCategory(dto: SubCategoryDto) : Promise<SubCategoryDetailComponent>{
         const createdSubCategory = await this.subCategoryRepository.addSubCategoryDB(dto);
-        const subCategoryDetail = await this.subCategoryRepository.subCategoryByIdDB(createdSubCategory.id);
-        const mappedSubCategoryDetail = subCategoryMapper.mapSubCategoryDetail(subCategoryDetail);
+        const mappedSubCategoryDetail = await this.subCategoryDetailMap(createdSubCategory.id);
         return new SubCategoryDetailComponent(200, "succesfull", mappedSubCategoryDetail);
+    }
+
+    private async subCategoryDetailMap(id: number){
+        const subCategoryDetail = await this.subCategoryRepository.subCategoryByIdDB(id);
+        if(!subCategoryDetail) throw new NotFoundException('No subcategories found with Id ' + id);
+        return subCategoryMapper.mapSubCategoryDetail(subCategoryDetail);
     }
 }
 

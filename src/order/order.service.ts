@@ -25,7 +25,7 @@ export class OrderService {
     }
 
     async ordersById(id: number){
-        const mappedOrderDetail = await this.orderDetailAndMap(id);
+        const mappedOrderDetail = await this.orderDetailMap(id);
         return new OrderDetailComponent(200, "succesfull", mappedOrderDetail);
     }
 
@@ -34,21 +34,21 @@ export class OrderService {
         const orderId = createdOrder.id;
         await this.orderLineService.addOrderLinesByOrderId(orderId, dto.order_lines);
         await this.userOrderService.addUserOrder(parseInt(dto.userId), orderId);
-        const mappedOrderDetail = await this.orderDetailAndMap(createdOrder.id);
+        const mappedOrderDetail = await this.orderDetailMap(createdOrder.id);
         return new OrderDetailComponent(201, 'succesfull', mappedOrderDetail);
     }
 
     async updateOrderById(id: number, dto: OrderDto){
         const updatedOrder = await this.orderRepository.updateOrderId(id);
         await this.orderLineService.updateOrderLinesByOrderId(updatedOrder.id, dto.order_lines);
-        const mappedOrderDetail = await this.orderDetailAndMap(updatedOrder.id);
+        const mappedOrderDetail = await this.orderDetailMap(updatedOrder.id);
         return new OrderDetailComponent(200, 'succesfull', mappedOrderDetail);
     }
 
 
-    private async orderDetailAndMap(id: number){
+    private async orderDetailMap(id: number){
         const orderDetail = await this.orderRepository.orderById(id);
-        if(!orderDetail) throw new NotFoundException('No order found with ' + id);
+        if(!orderDetail) throw new NotFoundException('No order found with Id ' + id);
         return orderMapper.mapOrderDetail(orderDetail);
     }
 }

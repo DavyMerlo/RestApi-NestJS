@@ -2,7 +2,7 @@ import { Product } from "../types/product.type"
 import { ProductDetail } from "../types/productdetail.type";
 
 
-export const mapper = {
+export const productMapper = {
     mapProduct : (product: any): Product => {
         return product.map((prop: any) => ({
             id: prop.id,

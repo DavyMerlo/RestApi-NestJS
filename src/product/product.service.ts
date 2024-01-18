@@ -4,7 +4,7 @@ import { ProductComponent } from '../models/components/product.component';
 import { ProductDetailComponent } from '../models/components/productdetail.component';
 import { SortingOption } from './enums/sortingoption.enum';
 import { ProductDto } from './dto/product.dto';
-import { mapper } from './mapper/product.mapper';
+import { productMapper } from './mapper/product.mapper';
 
 @Injectable({})
 export class ProductService {
@@ -16,14 +16,13 @@ export class ProductService {
     async products() : Promise<ProductComponent> {
         const productsDB = await this.productRepository.productsDB();
         if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
-        const mappedProducts = mapper.mapProduct(productsDB);
+        const mappedProducts = productMapper.mapProduct(productsDB);
         return new ProductComponent(200, "succesfull", mappedProducts);
     }
 
     async productById(id: number) : Promise<ProductDetailComponent> {
         const productDetail = await this.productRepository.productByIdDB(id);
-        if(!productDetail) throw new NotFoundException(`No product found wit Id: ${id}`);
-        const mappedProductDetail = mapper.mapProductDetail(productDetail);
+        const mappedProductDetail = await this.productDetailMap(id);
         return new ProductDetailComponent(200, "succesfull", mappedProductDetail);
     }
 
@@ -32,7 +31,7 @@ export class ProductService {
         limit: number | undefined) {
         const productsDB = await this.productRepository.searchProductsDB(query, limit);
         if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
-        const mappedProducts = mapper.mapProduct(productsDB);
+        const mappedProducts = productMapper.mapProduct(productsDB);
         return new ProductComponent(200, "succesfull", mappedProducts);
     };
 
@@ -52,7 +51,7 @@ export class ProductService {
             limit
             );
         if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
-        const mappedProducts = mapper.mapProduct(productsDB);
+        const mappedProducts = productMapper.mapProduct(productsDB);
         const productCountDB = await this.productRepository.productCount();
         const pages: number = Math.ceil(productCountDB / pageSize);
         const nextUrl = page < pages ? `${baseUrl}?page=${page + 1}&pageSize=${pageSize}` : null;
@@ -73,8 +72,13 @@ export class ProductService {
 
     async addProduct(dto: ProductDto): Promise<ProductDetailComponent>{
         const createdProduct = await this.productRepository.addProductDB(dto);
-        const productDetail = await this.productRepository.productByIdDB(createdProduct.id);
-        const mappedProductDetail = mapper.mapProductDetail(productDetail);
+        const mappedProductDetail = await this.productDetailMap(createdProduct.id);
         return new ProductDetailComponent(201, "succesfull", mappedProductDetail);
+    }
+
+    private async productDetailMap(id: number){
+        const productDetail = await this.productRepository.productByIdDB(id);
+        if(!productDetail) throw new NotFoundException('No product found with ' + id);
+        return productMapper.mapProductDetail(productDetail);
     }
 }
