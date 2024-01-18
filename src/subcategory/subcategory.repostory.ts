@@ -16,7 +16,7 @@ export class SubCategoryRepository {
             return subCategories;
         }
         catch(error){
-            throw new Error('Failed to fetch categories');
+            throw new Error('Failed to fetch subcategories');
         }
     }
 
@@ -33,7 +33,7 @@ export class SubCategoryRepository {
             return subCategory;
         }
         catch(error){
-            throw new Error('Failed to fetch product with ' + id);
+            throw new Error('Failed to fetch subcategory with ' + id);
         }
     }
 
