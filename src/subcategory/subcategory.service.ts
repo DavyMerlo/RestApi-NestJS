@@ -28,7 +28,13 @@ export class SubcategoryService {
     async addSubCategory(dto: SubCategoryDto){
         const createdSubCategory = await this.subCategoryRepository.addSubCategoryDB(dto);
         const mappedSubCategoryDetail = await this.subCategoryDetailMap(createdSubCategory.id);
-        return new SubCategoryDetailComponent(200, "succesfull", mappedSubCategoryDetail);
+        return new SubCategoryDetailComponent(201, "succesfull", mappedSubCategoryDetail);
+    }
+
+    async updateSubCategory(id: number, dto: SubCategoryDto){
+        const updatedSubCategory = await this.subCategoryRepository.updateSubCategoryByIdDB(id,dto);
+        const mappedSubCategoryDetail = await this.subCategoryDetailMap(updatedSubCategory.id);
+        return new SubCategoryComponent(200, "succesfull", mappedSubCategoryDetail);
     }
 
     private async subCategoryDetailMap(id: number){

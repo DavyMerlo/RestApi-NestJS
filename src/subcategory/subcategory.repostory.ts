@@ -49,4 +49,20 @@ export class SubCategoryRepository {
             throw new Error('Failed to add subcategory');
         }
     }
+
+    async updateSubCategoryByIdDB(id: number, dto: SubCategoryDto){
+        try{
+            const updatedSubCategory = await this.db.subCategory.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    ...dto
+                }
+            });
+            return updatedSubCategory;
+        }catch(error){
+            throw new Error('Failed to update subcategory');
+        }
+    }
 }
