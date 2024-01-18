@@ -10,14 +10,14 @@ export class UserAddressController {
     @Public()
     @Get('addresses/:addressId/users')
     @HttpCode(HttpStatus.OK)
-    usersByAddressId(@Param('addressId') addressId: string) {
-        return this.userAddressesService.usersByAddressId(parseInt(addressId));
+    async usersByAddressId(@Param('addressId') addressId: string) {
+        return await this.userAddressesService.usersByAddressId(parseInt(addressId));
     }
 
     @Public()
     @Get('users/:userId/addresses')
     @HttpCode(HttpStatus.OK)
-    addressByUserId(@Param('userId') userId: string) {
-        return this.userAddressesService.addressesByUserId(parseInt(userId));
+    async addressByUserId(@Param('userId') userId: string) {
+        return await this.userAddressesService.addressesByUserId(parseInt(userId));
     }
 }

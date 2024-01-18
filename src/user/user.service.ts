@@ -12,14 +12,14 @@ export class UserService {
     )
     {}
     
-    async users() : Promise<UserComponent>{
+    async users() {
         const usersDB = await this.userRepository.usersDB();
         if(!usersDB || usersDB.length === 0) throw new NotFoundException('No users found');
         const mappedUsers = userMapper.mapUser(usersDB);
         return new UserComponent(200, "succesfull", mappedUsers);
     }
 
-    async userById(id: number): Promise<UserDetailComponent>{
+    async userById(id: number) {
         const userDetail = await this.userRepository.userByIdDB(id);
         if(!userDetail) throw new NotFoundException('No user found with Id: ' + id);
         const mappedUserDetail = userMapper.mapUserDetail(userDetail);

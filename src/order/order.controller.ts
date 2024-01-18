@@ -11,28 +11,28 @@ export class OrderController {
     @Public()
     @Get()
     @HttpCode(HttpStatus.OK)
-    orders() {
-        return this.orderService.orders();
+    async orders() {
+        return await this.orderService.orders();
     }
 
     @Public()
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    orderById(@Param('id') id: string){
-        return this.orderService.ordersById(parseInt(id));
+    async orderById(@Param('id') id: string){
+        return await this.orderService.ordersById(parseInt(id));
     }
 
     @Public()
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    addOrder(@Body() dto: OrderDto){
-        return this.orderService.addOrder(dto);
+    async addOrder(@Body() dto: OrderDto){
+        return await this.orderService.addOrder(dto);
     }
 
     @Public()
     @Put(':id')
     @HttpCode(HttpStatus.CREATED)
-    updateOrder(@Param('id') id: string, @Body() dto: OrderDto){
-        return this.orderService.updateOrderById(parseInt(id), dto);
+    async updateOrder(@Param('id') id: string, @Body() dto: OrderDto){
+        return await this.orderService.updateOrderById(parseInt(id), dto);
     }
 }

@@ -16,21 +16,21 @@ export class ProductV1Controller {
     @Public()
     @Get()
     @HttpCode(HttpStatus.OK)
-    products() : Promise<ProductComponent> {
-        return this.productService.products();
+    async products() {
+        return await this.productService.products();
     }
 
     @Public()
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    productById(@Param('id') id: string) : Promise<ProductDetailComponent>{
-        return this.productService.productById(parseInt(id));
+    async productById(@Param('id') id: string) {
+        return await this.productService.productById(parseInt(id));
     }
 
     @Public()
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    addProduct(@Body() dto: ProductDto){
-        return this.productService.addProduct(dto);
+    async addProduct(@Body() dto: ProductDto){
+        return await this.productService.addProduct(dto);
     }
 }

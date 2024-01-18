@@ -1,7 +1,6 @@
 import { CategoryService } from './category.service';
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post} from '@nestjs/common';
 import { Public } from '../common/decorators/public.decorator';
-import { CategoryComponent } from '../models/components/category.component';
 
 @Controller('api/v1/categories')
 export class CategoryController {
@@ -11,15 +10,14 @@ export class CategoryController {
     @Public()
     @Get()
     @HttpCode(HttpStatus.OK)
-    subCategories()  {
+    async subCategories()  {
         return this.categoryService.categories();
     }
 
-    // @Public()
-    // @Get(':id')
-    // @HttpCode(HttpStatus.OK)
-    // subCategoryById(@Param('id') id: string): Promise<SubCategoryDetailComponent>{
-    //     return this.subCategoryService.subCategoryById(parseInt(id));
-    // }
-
+    @Public()
+    @Get(':id')
+    @HttpCode(HttpStatus.OK)
+    async subCategoryById(@Param('id') id: string) {
+        return this.categoryService.categoryById(parseInt(id));
+    }
 }

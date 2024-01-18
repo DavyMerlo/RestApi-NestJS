@@ -10,14 +10,14 @@ export class AddressController {
     @Public()
     @Get()
     @HttpCode(HttpStatus.OK)
-    addresses() {
-        return this.addressService.addresses();
+    async addresses() {
+        return await this.addressService.addresses();
     }
 
     @Public()
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    addressById(@Param('id') id: string) {
-        return this.addressService.addressById(parseInt(id));
+    async addressById(@Param('id') id: string) {
+        return await this.addressService.addressById(parseInt(id));
     }
 }

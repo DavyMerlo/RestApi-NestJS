@@ -13,14 +13,14 @@ export class ProductService {
     private productRepository: ProductRepository
     ){}
 
-    async products() : Promise<ProductComponent> {
+    async products() {
         const productsDB = await this.productRepository.productsDB();
         if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
         const mappedProducts = productMapper.mapProduct(productsDB);
         return new ProductComponent(200, "succesfull", mappedProducts);
     }
 
-    async productById(id: number) : Promise<ProductDetailComponent> {
+    async productById(id: number) {
         const productDetail = await this.productRepository.productByIdDB(id);
         const mappedProductDetail = await this.productDetailMap(id);
         return new ProductDetailComponent(200, "succesfull", mappedProductDetail);
@@ -42,7 +42,7 @@ export class ProductService {
         offset: number | undefined,
         limit: number | undefined,
         baseUrl: string
-        ) : Promise<ProductComponent> { 
+        ) { 
         const productsDB = await this.productRepository.productsPaginatedDb(
             sortParam, 
             page, 
@@ -70,7 +70,7 @@ export class ProductService {
         return new ProductComponent(200, 'successfull', mappedProducts, metaData);
     }
 
-    async addProduct(dto: ProductDto): Promise<ProductDetailComponent>{
+    async addProduct(dto: ProductDto) {
         const createdProduct = await this.productRepository.addProductDB(dto);
         const mappedProductDetail = await this.productDetailMap(createdProduct.id);
         return new ProductDetailComponent(201, "succesfull", mappedProductDetail);

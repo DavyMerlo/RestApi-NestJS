@@ -10,14 +10,14 @@ export class OrderLineController {
     @Public()
     @Get()
     @HttpCode(HttpStatus.OK)
-    orderLines(){
-        return this.orderLineService.orderLines();
+    async orderLines(){
+        return await this.orderLineService.orderLines();
     }
 
     @Public()
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    orderLineById(@Param('id') id: string){
-        return this.orderLineService.orderLineById(parseInt(id));
+    async orderLineById(@Param('id') id: string){
+        return await this.orderLineService.orderLineById(parseInt(id));
     }
 }

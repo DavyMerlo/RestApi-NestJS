@@ -13,23 +13,23 @@ export class SubcategoryController {
     @Public()
     @Get()
     @HttpCode(HttpStatus.OK)
-    subCategories() : Promise<SubCategoryComponent> {
-        return this.subCategoryService.subCategories();
+    async subCategories() {
+        return await this.subCategoryService.subCategories();
     }
 
     @Public()
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    subCategoryById(@Param('id') id: string): Promise<SubCategoryDetailComponent>{
-        return this.subCategoryService.subCategoryById(parseInt(id));
+    async subCategoryById(@Param('id') id: string) {
+        return await this.subCategoryService.subCategoryById(parseInt(id));
     }
 
     @Public()
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    addSubCategory(@Body() dto: SubCategoryDto){
+    async addSubCategory(@Body() dto: SubCategoryDto){
         console.log('object: ' + dto)
-        return this.subCategoryService.addSubCategory(dto);
+        return await this.subCategoryService.addSubCategory(dto);
     }
 }
 

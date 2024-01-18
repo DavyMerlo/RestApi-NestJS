@@ -13,7 +13,7 @@ export class SubcategoryService {
     )
     {}
 
-    async subCategories() : Promise<SubCategoryComponent> {
+    async subCategories() {
         const subCategoriesDB = await this.subCategoryRepository.subCategoriesDB();
         if(!subCategoriesDB || subCategoriesDB.length === 0) throw new NotFoundException('No subcategories found');
         const mappedCategories = subCategoryMapper.mapSubCategory(subCategoriesDB);
@@ -25,7 +25,7 @@ export class SubcategoryService {
         return new SubCategoryDetailComponent(200, "succesfull", mappedSubCategoryDetail);
     }
 
-    async addSubCategory(dto: SubCategoryDto) : Promise<SubCategoryDetailComponent>{
+    async addSubCategory(dto: SubCategoryDto){
         const createdSubCategory = await this.subCategoryRepository.addSubCategoryDB(dto);
         const mappedSubCategoryDetail = await this.subCategoryDetailMap(createdSubCategory.id);
         return new SubCategoryDetailComponent(200, "succesfull", mappedSubCategoryDetail);

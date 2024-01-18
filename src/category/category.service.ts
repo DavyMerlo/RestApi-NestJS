@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CategoryRepository } from './category.repository';
 import { categoryMapper } from './mapper/category.mapper';
 import { CategoryComponent } from '../models/components/category.component';
+import { CategoryDetailComponent } from '../models/components/categorydetail.component';
+
 
 @Injectable()
 export class CategoryService {
@@ -16,7 +18,9 @@ export class CategoryService {
     }
 
     async categoryById(id: number){
-        const category = await this.categoryRepository.categoryByIdDB(id);
-        return category;
+        const categoryDetail = await this.categoryRepository.categoryByIdDB(id);
+        if(!categoryDetail) throw new NotFoundException('No category found with Id ' + id);
+        const mappedSubCategoryDetail = await categoryMapper.mapCategoryDetail(categoryDetail);
+        return new CategoryDetailComponent(200, "succesfull", mappedSubCategoryDetail);
     }
 }

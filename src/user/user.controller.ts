@@ -15,14 +15,14 @@ export class UserController {
     @Public()
     @Get()
     @HttpCode(HttpStatus.OK)
-    users() :Promise<UserComponent>{
+    async users() {
         return this.userService.users();
     }
     
     @Public()
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    userById(@Param('id') id: string): Promise<UserDetailComponent>{
+    async userById(@Param('id') id: string) {
         return this.userService.userById(parseInt(id));
     }
 }
