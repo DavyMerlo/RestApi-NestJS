@@ -31,7 +31,15 @@ export class OrderLineRepository {
                 },
                 include: {
                     order: true,
-                    product: true,
+                    product: {
+                        include: {
+                            subCategory: {
+                                include: {
+                                    category: true
+                                }
+                            }
+                        }
+                    }
                 }
             });
             return orderLineDetail;
