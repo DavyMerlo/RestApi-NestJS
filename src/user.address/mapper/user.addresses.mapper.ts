@@ -40,7 +40,7 @@ export const userAddressMapper = {
         return user;
     },
 
-    mapAddresUserList: (usersByAddressDb: {user: User, address: Address} []) => {
+    mapAddressUserList: (usersByAddressDb: {user: User, address: Address} []) => {
 
         const mappedData = usersByAddressDb.map((data: any) => ({
             address: data.address,
