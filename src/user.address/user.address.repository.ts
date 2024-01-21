@@ -20,7 +20,7 @@ export class UserAddressRepository {
             });
             return userAddresses;
         }catch(errro){
-            throw new Error('Failed to fetch address by userId: ' + userId);
+            throw new Error('Failed to fetch addresses by userId: ' + userId);
         }
     }
 
@@ -37,7 +37,7 @@ export class UserAddressRepository {
             });
             return userAddresses;
         }catch(errro){
-            throw new Error('Failed to fetch user by addressId: ' + addressId);
+            throw new Error('Failed to fetch users by addressId: ' + addressId);
         }
     }
 }
