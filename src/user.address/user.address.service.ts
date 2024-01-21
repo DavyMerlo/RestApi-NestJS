@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserAddressRepository } from './user.address.repository';
-import { addressMapper } from '../address/mapper/address.mapper';
 import { userMapper } from '../user/mapper/user.mapper';
+import { userAddressMapper } from './mapper/user.addresses.mapper';
 
 @Injectable()
 export class UserAddressService {
@@ -14,8 +14,8 @@ export class UserAddressService {
     async addressesByUserId(userId: number){
         const addressesByUserIdDB = await this.userAddressRepository.addressesByUserId(userId);
         if(!addressesByUserIdDB || addressesByUserIdDB.length === 0) throw new  NotFoundException('No addresses found associated with userId: ' + userId);
-        const addressesToMap = addressesByUserIdDB.map(item => item.address);
-        return addressMapper.mapAddresses(addressesToMap);
+        const mappedAddressesUser = userAddressMapper.mapUserAddressList(addressesByUserIdDB);
+        return mappedAddressesUser;
     }
 
     async usersByAddressId(addressId: number){
