@@ -11,6 +11,4 @@ import { UserAddressRepository } from './user.address.repository';
   ]
 })
 export class UserAddressModule {
-
-
 }

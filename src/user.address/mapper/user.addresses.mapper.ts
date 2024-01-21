@@ -36,8 +36,7 @@ export const userAddressMapper = {
             });
             mapUserAddresses[user.id].addresses.push(...mappedAddresses);
         });
-        const user = mapUserAddresses[mappedData[0]?.user.id];
-        return user;
+        return Object.values(mapUserAddresses)[0];
     },
 
     mapAddressUserList: (usersByAddressDb: {user: User, address: Address} []) => {
@@ -72,8 +71,7 @@ export const userAddressMapper = {
             });
             mapAddressUsers[address.id].users.push(...mappedUsers);
         });
-        const address = mapAddressUsers[mappedData[0]?.address.id];
-        return address;
+        return Object.values(mapAddressUsers)[0];
     }
   };
   

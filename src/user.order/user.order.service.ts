@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserOrderRepository } from './user.order.repository';
+import { userOrderMapper } from './mapper/user.order.mapper';
 
 @Injectable()
 export class UserOrderService {
@@ -7,9 +8,10 @@ export class UserOrderService {
     constructor(private userOrderRepository: UserOrderRepository){}
 
     async ordersByUserId(userId: number){
-        const ordersByUserId = await this.userOrderRepository.ordersByUserId(userId);
-        if(!ordersByUserId || ordersByUserId.length === 0) throw new  NotFoundException('No orders found associated with userId: ' + userId);
-        return ordersByUserId;
+        const ordersByUserIdDB = await this.userOrderRepository.ordersByUserId(userId);
+        if(!ordersByUserIdDB || ordersByUserIdDB.length === 0) throw new  NotFoundException('No orders found associated with userId: ' + userId);
+        const mappedOrdersUser = userOrderMapper.mapUserOrderList(ordersByUserIdDB);
+        return mappedOrdersUser;
     }
 
     async userByOrderId(orderId: number){

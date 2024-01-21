@@ -1,6 +1,7 @@
+import { OrderLine } from "../../orderline/types/orderline.type";
 
 export type Order = {
     id: number;
-    date: string;
-    order_lines: number[];
+    date: Date;
+    orderLines: OrderLine[];
 };

@@ -16,10 +16,13 @@ export class UserOrderRepository {
                 },
                 include: {
                     user: true,
-                    order: true
+                    order: {
+                        include: {
+                            orderLines: true
+                        }
+                    }
                 }
             });
-            console.log(userOrders)
             return userOrders;
         }catch(error){
             throw new Error('Failed to fetch orders by userId: ' + userId);
