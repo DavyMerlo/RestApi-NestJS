@@ -21,7 +21,6 @@ export class ProductService {
     }
 
     async productById(id: number) {
-        const productDetail = await this.productRepository.productByIdDB(id);
         const mappedProductDetail = await this.productDetailMap(id);
         return new ProductDetailComponent(200, "succesfull", mappedProductDetail);
     }
@@ -75,6 +74,12 @@ export class ProductService {
         const mappedProductDetail = await this.productDetailMap(createdProduct.id);
         return new ProductDetailComponent(201, "succesfull", mappedProductDetail);
     }
+
+    async softDeleteProduct(id: number){
+        await this.productRepository.softDeleteProduct(id);
+        return new ProductDetailComponent(200, "succesfull", null);
+    }
+
 
     private async productDetailMap(id: number){
         const productDetail = await this.productRepository.productByIdDB(id);

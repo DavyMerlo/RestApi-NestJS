@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductComponent } from '../models/components/product.component';
 import { ProductDetailComponent } from '../models/components/productdetail.component';
@@ -32,5 +32,12 @@ export class ProductV1Controller {
     @HttpCode(HttpStatus.CREATED)
     async addProduct(@Body() dto: ProductDto){
         return await this.productService.addProduct(dto);
+    }
+
+    @Public()
+    @Put(':id')
+    @HttpCode(HttpStatus.OK)
+    async softDeleteProduct(@Param('id') id: string){
+        return await this.productService.softDeleteProduct(parseInt(id));
     }
 }

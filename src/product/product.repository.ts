@@ -12,6 +12,9 @@ export class ProductRepository {
     async productsDB() {
         try{
             const products = await this.db.product.findMany({
+                where: {
+                    deletedAt: null
+                },
                 include: {
                     subCategory: {
                         include: {
@@ -31,7 +34,8 @@ export class ProductRepository {
         try{
             const product = await this.db.product.findUnique({
                 where: {
-                    id: id
+                    id: id,
+                    deletedAt:  null
                 },
                 include: {
                     subCategory: {
@@ -64,6 +68,9 @@ export class ProductRepository {
                 take = limit;
             }
             const products = await this.db.product.findMany({
+                where: {
+                    deletedAt: null
+                },
                 include: {
                     subCategory: {
                         include: {
@@ -86,11 +93,14 @@ export class ProductRepository {
         try{
             const parsedLimit: number | undefined = limit ? limit : undefined;
             const products = await this.db.product.findMany({
-                where: query
-                    ? {
-                          OR: [{ name: { contains: query, mode: 'insensitive' } }],
-                      }
-                    : {},
+                where: {
+                    deletedAt: null,
+                    ...(query
+                        ? {
+                              OR: [{ name: { contains: query, mode: 'insensitive' } }],
+                          }
+                        : {}),
+                },
                 take: parsedLimit,
                 include: {
                     subCategory: {
@@ -109,7 +119,11 @@ export class ProductRepository {
 
     async productCount(){
         try{
-            const productCount = await this.db.product.count(); 
+            const productCount = await this.db.product.count({
+                where: {
+                    deletedAt: null
+                }
+            }); 
             return productCount;
         }
         catch(error){
@@ -127,6 +141,21 @@ export class ProductRepository {
             return newProduct;
         }catch(error){
             throw new Error('Failed to add product');
+        }
+    }
+
+    async softDeleteProduct(id: number) {
+        try {
+            await this.db.product.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    deletedAt: new Date()
+                }
+            });
+        } catch (error) {
+            throw new Error('Failed to soft-delete product');
         }
     }
 }
