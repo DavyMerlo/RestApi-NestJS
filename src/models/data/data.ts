@@ -101,8 +101,8 @@ export default class Data {
     ];
 
     static orderData: OrderDto[] = [
-        { date:  new Date("2023-01-03")},
-        { date:  new Date("2023-01-05")},
+        {userId: null, date:  new Date("2023-01-03"), order_lines: null},
+        {userId: null, date:  new Date("2023-01-05"), order_lines: null},
     ];
 
     static orderLineData: OrderLineDto[] = [

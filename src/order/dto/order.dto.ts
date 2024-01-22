@@ -5,8 +5,11 @@ import { OrderLineDto } from "../../orderline/dto/orderline.dto";
 export class OrderDto {
 
     @IsNotEmpty()
-    userId: string;
+    userId: number | null;
 
     @IsNotEmpty()
-    order_lines: OrderLineDto[]
+    date: Date;
+
+    @IsNotEmpty()
+    order_lines: OrderLineDto[] | null;
 };

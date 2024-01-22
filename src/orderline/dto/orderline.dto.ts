@@ -6,5 +6,8 @@ export class OrderLineDto {
     productId: number;
 
     @IsNotEmpty()
+    orderId: number
+
+    @IsNotEmpty()
     quantity: number;
 };
