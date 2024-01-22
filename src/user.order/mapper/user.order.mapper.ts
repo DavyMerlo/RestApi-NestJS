@@ -1,5 +1,6 @@
 import { Order } from "../../order/types/order.type";
 import { User } from "../../user/types/user.type";
+import { OrderUser } from "../types/order.user.type";
 import { UserOrderList } from "../types/user.orders.list.type";
 
 export const userOrderMapper = {
@@ -18,21 +19,25 @@ export const userOrderMapper = {
                 };
             }
     
-            const mappedOrder = {
+            const mappedOrders = {
                 id: order.id,
                 date: order.date,
                 orderLines: order.orderLines.map((line: any) => ({
                     id: line.id,
-                    quantity: line.quantity,
-                    productId: line.productId,
-                    orderId: line.orderId,
                 })),
             };
     
-            mapUserOrders[user.id].orders.push(mappedOrder);
+            mapUserOrders[user.id].orders.push(mappedOrders as Order);
         });
 
-        const userWithOrders = Object.values(mapUserOrders);
-        return userWithOrders;
+        return Object.values(mapUserOrders);
     },
+
+    mapOrderUser: (userByOrderDB: {user: User, order: Order}[]) => {
+
+        const mapOrderUser : Record<number, OrderUser> = {};
+
+        
+
+    }
 }

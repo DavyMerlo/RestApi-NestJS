@@ -7,69 +7,49 @@ export const userAddressMapper = {
 
     mapUserAddressList: (addressesByUserDb: { user: User, address: Address }[]) => {
 
-        const mappedData = addressesByUserDb.map((data: any) => ({
-            user: data.user,
-            address: [data.address],
-        }));
-        
         const mapUserAddresses: Record<number, UserAddressList> = {};
     
-        mappedData.forEach(({ user, address }) => {
+        addressesByUserDb.forEach(({ user, address }) => {
             if (!mapUserAddresses[user.id]) {
                 mapUserAddresses[user.id] = {
                     id: user.id,
-                    first_name: user.firstName,
-                    last_name: user.lastName, 
                     addresses: [],
                 };
             }
 
-            const mappedAddresses = address.map((prop: any) => {
-                return {
-                    id : prop.id,
-                    street: prop.street,
-                    houseNumber: prop.houseNumber,
-                    postalCode: prop.postalCode,
-                    city: prop.city,
-                    country: prop.country,
-                };
-            });
-            mapUserAddresses[user.id].addresses.push(...mappedAddresses);
+            const mappedAddresses = {
+                id: address.id,
+                street: address.street,
+                houseNumber: address.houseNumber,
+                postalCode: address.postalCode,
+                city: address.city,
+                country: address.country,
+            };
+            mapUserAddresses[user.id].addresses.push(mappedAddresses as Address);
         });
         return Object.values(mapUserAddresses)[0];
     },
 
     mapAddressUserList: (usersByAddressDb: {user: User, address: Address} []) => {
 
-        const mappedData = usersByAddressDb.map((data: any) => ({
-            address: data.address,
-            user: [data.user],
-        }));
-
         const mapAddressUsers : Record<number, AddressUsersList> = {};
 
-        mappedData.forEach(({address, user}) => {
+        usersByAddressDb.forEach(({address, user}) => {
             if(!mapAddressUsers[address.id]){
                 mapAddressUsers[address.id] = {
                     id: address.id,
-                    street: address.street,
-                    houseNumber: address.houseNumber,
-                    postalCode: address.postalCode,
-                    city: address.city,
-                    country: address.country,
                     users: [],
-                }
+                };
             }
 
-            const mappedUsers = user.map((prop: any) => {
-                return {
-                    id : prop.id,
-                    firstName: prop.firstName,
-                    lastName: prop.lastName,
-                    email: prop.email,
-                };
-            });
-            mapAddressUsers[address.id].users.push(...mappedUsers);
+            const mappedUser = {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            };
+
+            mapAddressUsers[address.id].users.push(mappedUser as User);
         });
         return Object.values(mapAddressUsers)[0];
     }
