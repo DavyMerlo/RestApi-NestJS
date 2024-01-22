@@ -1,10 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProductRepository } from './product.repository';
-import { ProductComponent } from '../models/components/product.component';
-import { ProductDetailComponent } from '../models/components/productdetail.component';
 import { SortingOption } from './enums/sortingoption.enum';
 import { ProductDto } from './dto/product.dto';
 import { productMapper } from './mapper/product.mapper';
+import { BaseComponent } from '../models/components/base.component';
 
 @Injectable({})
 export class ProductService {
@@ -17,12 +16,12 @@ export class ProductService {
         const productsDB = await this.productRepository.productsDB();
         if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
         const mappedProducts = productMapper.mapProduct(productsDB);
-        return new ProductComponent(200, "succesfull", mappedProducts);
+        return new BaseComponent(200, "succesfull", {products: mappedProducts});
     }
 
     async productById(id: number) {
         const mappedProductDetail = await this.productDetailMap(id);
-        return new ProductDetailComponent(200, "succesfull", mappedProductDetail);
+        return new BaseComponent(200, "successful", { product: mappedProductDetail });
     }
 
     async searchProducts(
@@ -31,7 +30,7 @@ export class ProductService {
         const productsDB = await this.productRepository.searchProductsDB(query, limit);
         if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
         const mappedProducts = productMapper.mapProduct(productsDB);
-        return new ProductComponent(200, "succesfull", mappedProducts);
+        return new BaseComponent(200, "succesfull", {products: mappedProducts});
     };
 
     async productsPaginated(
@@ -66,20 +65,20 @@ export class ProductService {
             hasNext: hasNext,
             hasPrevious: hasPrevious
         };
-        return new ProductComponent(200, 'successfull', mappedProducts, metaData);
+        return new BaseComponent(200, "succesfull", {products: mappedProducts, metaData})
     }
 
     async addProduct(dto: ProductDto) {
         const createdProduct = await this.productRepository.addProductDB(dto);
         const mappedProductDetail = await this.productDetailMap(createdProduct.id);
-        return new ProductDetailComponent(201, "succesfull", mappedProductDetail);
+        return new BaseComponent(201, "succesfull", {product: mappedProductDetail});
     }
 
     async softDeleteProduct(id: number){
+        await this.productDetailMap(id);
         await this.productRepository.softDeleteProduct(id);
-        return new ProductDetailComponent(200, "succesfull", null);
+        return new BaseComponent(200, "succesfull", {});
     }
-
 
     private async productDetailMap(id: number){
         const productDetail = await this.productRepository.productByIdDB(id);

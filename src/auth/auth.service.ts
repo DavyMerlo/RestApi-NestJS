@@ -7,8 +7,7 @@ import { RegisterDto } from "./dto/register.dto";
 import { AuthRepository } from "./auth.repository";
 import { JwtPayload } from "./types/jwtPayload.type";
 import { User } from "../models/user";
-import { TokenComponent } from "../models/components/token.component";
-import { LogoutComponent } from "../models/components/logout.component";
+import { BaseComponent } from "../models/components/base.component";
 
 @Injectable({})
 export class AuthService {
@@ -18,7 +17,7 @@ export class AuthService {
         private authRepository: AuthRepository
         ){}
 
-    async authenticate(dto: AuthDto) : Promise<TokenComponent>{
+    async authenticate(dto: AuthDto){
         const user = await this.authRepository.getUserByEmail(dto.email);
         if(!user){
             throw new UnauthorizedException('Unable to login. Invalid credentials');
@@ -30,10 +29,10 @@ export class AuthService {
         const payLoadData = this.createJwtPayload(user);
         const tokens = await this.getTokens(payLoadData);
         await this.authRepository.updateRefreshTokenUser(user.id!, tokens.refresh_token);
-        return new TokenComponent(200, 'Authentication successful', tokens);
+        return new BaseComponent(200, 'Authentication successful', tokens);
     }
 
-    async register(dto: RegisterDto) : Promise<TokenComponent>{
+    async register(dto: RegisterDto){
         const emailExists = await this.authRepository.getUserByEmail(dto.email);
         if(emailExists?.email){
             throw new NotAcceptableException('Email already in use');
@@ -41,18 +40,18 @@ export class AuthService {
         const user = await this.authRepository.createUser(dto);
         const payLoadData = this.createJwtPayload(user);
         const tokens = await this.getTokens(payLoadData);
-        return new TokenComponent(200, 'Registration successful', tokens);
+        return new BaseComponent(200, 'Registration successful', tokens);
     }
 
-    async logout(userId: number) : Promise<LogoutComponent>{
+    async logout(userId: number) {
         const isLogout = await this.authRepository.updateAllRefreshTokensUser(userId);
         if(!isLogout){
             throw new NotFoundException('Logout unsuccesfull');
         }
-        return new LogoutComponent(200, 'Logout successful', isLogout);
+        return new BaseComponent(200, 'Logout successful', isLogout);
     }
 
-    async refreshTokens(userId: number, rt: string): Promise<TokenComponent> {
+    async refreshTokens(userId: number, rt: string) {
         const user = await this.authRepository.getUserById(userId);
         if (!user || !user.hashedRt) {
             throw new UnauthorizedException("Invalid credentials");
@@ -64,7 +63,7 @@ export class AuthService {
         const payLoadData = this.createJwtPayload(user);
         const tokens = await this.getTokens(payLoadData);
         await this.authRepository.updateRefreshTokenUser(user.id, tokens.refresh_token);
-        return new TokenComponent(200, 'Refresh tokens successful', tokens);
+        return new BaseComponent(200, 'Refresh tokens successful', tokens);
     }
 
     async getTokens(payLoadData: JwtPayload) : Promise<Tokens> {

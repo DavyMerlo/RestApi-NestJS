@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AddressRepository } from './address.repository';
 import { addressMapper } from './mapper/address.mapper';
-import { AddressComponent } from '../models/components/address.component';
+import { BaseComponent } from '../models/components/base.component';
 
 @Injectable()
 export class AddressService {
@@ -15,7 +15,7 @@ export class AddressService {
         const addressesDB = await this.addressRepository.addressesDB();
         if(!addressesDB || addressesDB.length === 0) throw new NotFoundException('No addresses found');
         const mappedAddresses = addressMapper.mapAddresses(addressesDB);
-        return new AddressComponent(200, "succesfull", mappedAddresses);
+        return new BaseComponent(200, "succesfull", {addresses: mappedAddresses});
     }
 
     async addressById(id: number){

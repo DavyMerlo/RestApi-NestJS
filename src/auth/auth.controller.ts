@@ -3,9 +3,6 @@ import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto";
 import { RegisterDto } from "./dto/register.dto";
 import { RtGuard } from "../common/guards/rt.guard";
-import { BaseComponent } from "../models/components/base.component";
-import { TokenComponent } from "../models/components/token.component";
-import { LogoutComponent } from "../models/components/logout.component";
 import { Public } from "../common/decorators/public.decorator";
 import { currentUserId } from "../common/decorators/current-user-id.decorator";
 import { currentUser } from "../common/decorators/current-user.decorator";
@@ -18,21 +15,21 @@ export class AuthController {
     @Public()
     @Post('authenticate')
     @HttpCode(HttpStatus.OK)
-    authenticate(@Body() dto: AuthDto) : Promise<TokenComponent> {
+    async authenticate(@Body() dto: AuthDto) {
         return this.authService.authenticate(dto);
     }
 
     @Public()
     @Post('register')
     @HttpCode(HttpStatus.CREATED)
-    register(@Body() dto: RegisterDto) : Promise<TokenComponent>{
+    async register(@Body() dto: RegisterDto) {
         return this.authService.register(dto);
     }
 
-    // @UseGuards(AtGuard)
+
     @Post('logout')
     @HttpCode(HttpStatus.OK)
-    logout(@currentUserId() userId: number) : Promise<LogoutComponent>{
+    async logout(@currentUserId() userId: number) {
         return this.authService.logout(userId);
     }
 
@@ -40,9 +37,9 @@ export class AuthController {
     @UseGuards(RtGuard)
     @Post('refresh')
     @HttpCode(HttpStatus.OK)
-    refreshToken(
+    async refreshToken(
         @currentUserId() userId: number,
-        @currentUser('refreshToken') refreshToken: string) : Promise<TokenComponent>{
+        @currentUser('refreshToken') refreshToken: string) {
         return this.authService.refreshTokens(userId, refreshToken);
     }
 }

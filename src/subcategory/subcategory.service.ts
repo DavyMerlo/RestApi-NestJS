@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SubCategoryRepository } from './subcategory.repostory';
 import { subCategoryMapper } from './mapper/subcategory.mapper';
-import { SubCategoryComponent } from '../models/components/subcategory.component';
-import { SubCategoryDetailComponent } from '../models/components/subcategorydetail.component';
 import { SubCategoryDto } from './dto/subcategory.dto.';
+import { BaseComponent } from '../models/components/base.component';
+import { categories } from '../models/category';
 
 @Injectable({})
 export class SubcategoryService {
@@ -17,24 +17,24 @@ export class SubcategoryService {
         const subCategoriesDB = await this.subCategoryRepository.subCategoriesDB();
         if(!subCategoriesDB || subCategoriesDB.length === 0) throw new NotFoundException('No subcategories found');
         const mappedCategories = subCategoryMapper.mapSubCategory(subCategoriesDB);
-        return new SubCategoryComponent(200, "succesfull", mappedCategories);
+        return new BaseComponent(200, "succesfull", {sub_categories: mappedCategories});
     }
 
     async subCategoryById(id: number) {
         const mappedSubCategoryDetail = await this.subCategoryDetailMap(id);
-        return new SubCategoryDetailComponent(200, "succesfull", mappedSubCategoryDetail);
+        return new BaseComponent(200, "succesfull", {sub_category: mappedSubCategoryDetail});
     }
 
     async addSubCategory(dto: SubCategoryDto){
         const createdSubCategory = await this.subCategoryRepository.addSubCategoryDB(dto);
         const mappedSubCategoryDetail = await this.subCategoryDetailMap(createdSubCategory.id);
-        return new SubCategoryDetailComponent(201, "succesfull", mappedSubCategoryDetail);
+        return new BaseComponent(201, "succesfull", {sub_category: mappedSubCategoryDetail});
     }
 
     async updateSubCategory(id: number, dto: SubCategoryDto){
         const updatedSubCategory = await this.subCategoryRepository.updateSubCategoryByIdDB(id,dto);
         const mappedSubCategoryDetail = await this.subCategoryDetailMap(updatedSubCategory.id);
-        return new SubCategoryComponent(200, "succesfull", mappedSubCategoryDetail);
+        return new BaseComponent(200, "succesfull", {sub_category: mappedSubCategoryDetail});
     }
 
     private async subCategoryDetailMap(id: number){
