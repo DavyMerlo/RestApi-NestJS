@@ -26,18 +26,25 @@ export const userOrderMapper = {
                     id: line.id,
                 })),
             };
-    
             mapUserOrders[user.id].orders.push(mappedOrders as Order);
         });
 
-        return Object.values(mapUserOrders);
+        return Object.values(mapUserOrders)[0];
     },
 
-    mapOrderUser: (userByOrderDB: {user: User, order: Order}[]) => {
-
-        const mapOrderUser : Record<number, OrderUser> = {};
-
-        
-
+    mapOrderUser: (ordersByUserDB: { user: User; order: Order}) => {
+        const mapOrderUser: Record<number, OrderUser> = {};
+    
+        mapOrderUser[ordersByUserDB.order.id] = {
+            id: ordersByUserDB.order.id,
+            user: {
+                id: ordersByUserDB.user.id,
+                firstName: ordersByUserDB.user.firstName,
+                lastName: ordersByUserDB.user.lastName,
+                email: ordersByUserDB.user.email
+            }
+        };
+    
+        return Object.values(mapOrderUser)[0];
     }
 }

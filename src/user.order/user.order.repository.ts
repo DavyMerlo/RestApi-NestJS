@@ -37,7 +37,11 @@ export class UserOrderRepository {
                 },
                 include: {
                     user: true,
-                    order: true
+                    order: {
+                        include: {
+                            orderLines: true
+                        }
+                    }
                 }
             });
             return orderUser;
