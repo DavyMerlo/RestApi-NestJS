@@ -28,4 +28,19 @@ export class AddressRepository {
             throw new Error('Failed to fetch address by ' + id);
         }
     }
+
+    async softDeleteAddress(id: number){
+        try{
+            await this.db.address.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    deletedAt: new Date()
+                }
+            })
+        }catch(error){
+            throw new Error('Failed to soft-delete address');
+        }
+    }
 }

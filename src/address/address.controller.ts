@@ -1,6 +1,6 @@
 import { AddressService } from './address.service';
 import { Public } from '../common/decorators/public.decorator';
-import { Controller, Get, HttpCode, HttpStatus, Param} from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Param, Put} from '@nestjs/common';
 
 @Controller('api/v1/addresses')
 export class AddressController {
@@ -19,5 +19,12 @@ export class AddressController {
     @HttpCode(HttpStatus.OK)
     async addressById(@Param('id') id: string) {
         return await this.addressService.addressById(parseInt(id));
+    }
+
+    @Public()
+    @Put('id')
+    @HttpCode(HttpStatus.OK)
+    async softDeleteAddress(@Param('id') id: string){
+        return await this.addressService.softDeleteAddress(parseInt(id));
     }
 }

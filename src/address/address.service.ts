@@ -21,6 +21,19 @@ export class AddressService {
     async addressById(id: number){
         const addressDetail = await this.addressRepository.addressByIdDB(id);
         if(!addressDetail) throw new  NotFoundException('No address found with Id: ' + id);
-        return addressDetail;
+        const mappedAddressDetails = addressMapper.mapAddressDetail(addressDetail);
+        return new BaseComponent(200, "succesfull", {address: mappedAddressDetails});
+    }
+
+    async softDeleteAddress(id: number){
+        await this.addressDetailMap(id);
+        await this.addressRepository.softDeleteAddress(id);
+        return new BaseComponent(200, "succesfull", {});
+    }
+
+    private async addressDetailMap(id: number){
+        const addressDetail = await this.addressRepository.addressByIdDB(id);
+        if(!addressDetail) throw new NotFoundException('No address found with ' + id);
+        return addressMapper.mapAddressDetail(addressDetail);
     }
 }

@@ -12,4 +12,15 @@ export const addressMapper = {
             country: prop.country
         }));
     },
+
+    mapAddressDetail: (addressDetail: any): Address => {
+        return {
+            id: addressDetail.id,
+            street: addressDetail.street,
+            houseNumber: addressDetail.houseNumber,
+            postalCode: addressDetail.postalCode,
+            city: addressDetail.city,
+            country: addressDetail.country 
+        }
+    }
 }
