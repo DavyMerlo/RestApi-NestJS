@@ -15,27 +15,27 @@ export class ProductV1Controller {
     @Get()
     @HttpCode(HttpStatus.OK)
     async products() {
-        return await this.productService.products();
+        return await this.productService.getAll();
     }
 
     @Public()
     @Get(':id')
     @HttpCode(HttpStatus.OK)
     async productById(@Param('id') id: string) {
-        return await this.productService.productById(parseInt(id));
+        return await this.productService.getById(parseInt(id));
     }
 
     @Public()
     @Post()
     @HttpCode(HttpStatus.CREATED)
     async addProduct(@Body() dto: ProductDto){
-        return await this.productService.addProduct(dto);
+        return await this.productService.add(dto);
     }
 
     @Public()
     @Put(':id')
     @HttpCode(HttpStatus.OK)
     async softDeleteProduct(@Param('id') id: string){
-        return await this.productService.softDeleteProduct(parseInt(id));
+        return await this.productService.delete(parseInt(id));
     }
 }

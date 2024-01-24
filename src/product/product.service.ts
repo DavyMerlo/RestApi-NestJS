@@ -4,24 +4,38 @@ import { SortingOption } from './enums/sortingoption.enum';
 import { ProductDto } from './dto/product.dto';
 import { productMapper } from './mapper/product.mapper';
 import { BaseComponent } from '../models/components/base.component';
+import { BaseService } from '../shared/base.service';
 
 @Injectable({})
-export class ProductService {
-
+export class ProductService extends BaseService {
+    
     constructor(
-    private productRepository: ProductRepository
-    ){}
+    private productRepository: ProductRepository) {
+        super(productRepository);
+    }
 
-    async products() {
+    async getAll() {
         const productsDB = await this.productRepository.productsDB();
         if(!productsDB || productsDB.length === 0) throw new NotFoundException('No products found');
         const mappedProducts = productMapper.mapProduct(productsDB);
         return new BaseComponent(200, "succesfull", {products: mappedProducts});
     }
 
-    async productById(id: number) {
-        const mappedProductDetail = await this.productDetailMap(id);
+    async getById(id: number) {
+        const mappedProductDetail = await this.mapToProductDetail(id);
         return new BaseComponent(200, "successful", { product: mappedProductDetail });
+    }
+
+    async add(dto: ProductDto) {
+        const createdProduct = await this.productRepository.addProductDB(dto);
+        const mappedProductDetail = await this.mapToProductDetail(createdProduct.id);
+        return new BaseComponent(201, "succesfull", {product: mappedProductDetail});
+    }
+
+    async delete(id: number) {
+        await this.mapToProductDetail(id);
+        await this.productRepository.softDeleteProduct(id);
+        return new BaseComponent(200, "succesfull", {});
     }
 
     async searchProducts(
@@ -68,19 +82,7 @@ export class ProductService {
         return new BaseComponent(200, "succesfull", {products: mappedProducts, metaData})
     }
 
-    async addProduct(dto: ProductDto) {
-        const createdProduct = await this.productRepository.addProductDB(dto);
-        const mappedProductDetail = await this.productDetailMap(createdProduct.id);
-        return new BaseComponent(201, "succesfull", {product: mappedProductDetail});
-    }
-
-    async softDeleteProduct(id: number){
-        await this.productDetailMap(id);
-        await this.productRepository.softDeleteProduct(id);
-        return new BaseComponent(200, "succesfull", {});
-    }
-
-    private async productDetailMap(id: number){
+    private async mapToProductDetail(id: number){
         const productDetail = await this.productRepository.productByIdDB(id);
         if(!productDetail) throw new NotFoundException('No product found with ' + id);
         return productMapper.mapProductDetail(productDetail);
